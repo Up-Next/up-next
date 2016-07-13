@@ -1,0 +1,15 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    script(type='text/javascript').
+      if (foo) {
+         bar()
+      }
+  body
+    h1.title Jade - node template engine
+    #container
+      if 1
+        p You are amazing
+      else
+        p Get on it!
