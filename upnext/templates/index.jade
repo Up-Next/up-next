@@ -1,15 +1,9 @@
 doctype html
 html(lang="en")
   head
-    title= pageTitle
-    script(type='text/javascript').
-      if (foo) {
-         bar()
-      }
+    title="UpNext Homepage"
+    link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css", rel="stylesheet")
+
   body
-    h1.title Jade - node template engine
-    #container
-      if 1
-        p You are amazing
-      else
-        p Get on it!
+    .main-container
+      span Hello
