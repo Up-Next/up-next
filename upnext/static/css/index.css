@@ -17,7 +17,7 @@ body {
   left: 0;
   z-index: -1;
 
-  /* Preserve aspet ratio */
+  /* Preserve aspect ratio */
   min-width: 100%;
   min-height: 100%;
 }
@@ -57,12 +57,24 @@ a:hover {
 .container {
   /*background-color: #0e0b16;*/
   width: 100%;
+  position: absolute;
+  top: 45%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   text-align: center;
 }
 
 .search-bar {
-  width: 30%;
+  width: 35%;
   margin: 0 auto;
+}
+
+@media (max-width: 800px) {
+  .search-bar {
+    width: 70%;
+  }
 }
 
 .btn {
