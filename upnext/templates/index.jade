@@ -20,20 +20,21 @@ html(lang="en")
         .create
           span
             a(href="") + Create a party
-    .container
-      if 0
-        h1 To get started, connect to Spotify.
-      if 1
-        h1 Know of a party? Look it up here.
-      .row
-        if 1
-          .col-sm-12
-              .search-bar
-                input.form-control(type="text", placeholder="Find your party!")
+    .content
+      .centered
         if 0
-          .col-sm-12
-            .log-in
-              a.btn.btn-primary(href='/login') Log in button
+          h1 To get started, connect to Spotify.
+        if 1
+          h1 Know of a party? Look it up here.
+        .row
+          if 1
+            .col-sm-12
+                .search-bar
+                  input.form-control(type="text", placeholder="Find your party!")
+          if 0
+            .col-sm-12
+              .log-in
+                a.btn.btn-primary(href='/login') Log in button
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
     script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
 

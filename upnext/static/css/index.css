@@ -54,16 +54,18 @@ a:hover {
   margin: 15px;
 }
 
-.container {
+.content {
   /*background-color: #0e0b16;*/
+  display: table;
   width: 100%;
-  position: absolute;
-  top: 45%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  text-align: center;
+  height: 100%;
+  /*text-align: center;*/
+}
+
+.centered {
+  display: table-cell;
+  vertical-align: middle;
+
 }
 
 .search-bar {
