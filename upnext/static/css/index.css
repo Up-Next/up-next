@@ -6,9 +6,21 @@ html {
 }
 
 body {
-  color: #e7dfdd;
+  height: 100%;
+  width: 100%;
+  background: none;
 }
 
+#bg {
+  position: fixed;
+  top: 58px;
+  left: 0;
+  z-index: -1;
+
+  /* Preserve aspet ratio */
+  min-width: 100%;
+  min-height: 100%;
+}
 h1 {
   color: #e7dfdd;
   text-align: center;
@@ -27,7 +39,6 @@ a:hover {
   margin: 0;
   background-color: #0e0b16;
   border-bottom: 3px solid #4717f6;
-  height: 20%;
 }
 
 .title {
@@ -44,7 +55,7 @@ a:hover {
 }
 
 .container {
-  background-color: #0e0b16;
+  /*background-color: #0e0b16;*/
   width: 100%;
   text-align: center;
 }
