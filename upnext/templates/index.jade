@@ -9,17 +9,25 @@ html(lang="en")
     link(rel="stylesheet", href="{% static 'css/index.css' %}")
 
   body
-    .row
-      .col-sm-12.header
+    .row.header
+      .col-sm-4
         h1.title UpNext
+      .col-sm-8
+        .create
+          span
+            a(href="") + Create a party
     .container
+      if 1
+        h1 To get started, connect to Spotify.
       .row
-        if user.loggedIn
+        if 0
           .col-sm-12
               .search-bar
                 input.form-control(type="text", placeholder="Find your party!")
-        else
+                span.input-group-btn
+                  btn.btn-default(type="button") Go!
+        if 1
           .col-sm-12
             .log-in
-              a.btn.btn-primary#thebutton(href='/login') Log in button
+              a.btn.btn-primary(href='/login') Log in button
 
