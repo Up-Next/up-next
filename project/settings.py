@@ -134,3 +134,7 @@ STATICFILES_DIRS = [
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+SPOTIPY_CLIENT_ID='ce1583f19b4b4d0f810933825b14155b'
+SPOTIPY_CLIENT_SECRET='42557df5b5104ea6a7133c1346b2e9e1'
+SPOTIPY_REDIRECT_URI='https://upnext.me/callback'
