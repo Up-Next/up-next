@@ -10,3 +10,10 @@ class Track(models.Model):
 
     def __str__(self):
         return self.track_title
+
+
+class Party(models.Model):
+    party_name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.party_name
