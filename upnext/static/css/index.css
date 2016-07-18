@@ -1,0 +1,58 @@
+
+body {
+  color: #e7dfdd;
+}
+
+h1 {
+  color: #e7dfdd;
+  text-align: center;
+}
+
+.header {
+  background-color: #0e0b16;
+}
+
+.title {
+  float: left;
+  padding-left: 20px;
+  font-size: 25px;
+}
+
+.container {
+  background-color: #0e0b16;
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+}
+
+.search-bar {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.btn {
+    padding: 14px 24px;
+    border: 0 none;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+.btn-primary {
+    background: #4717f6;
+    color: #ffffff;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background: #582df4;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background: #2b02c1;
+    box-shadow: none;
+}
