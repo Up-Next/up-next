@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from upnext.models import Track
 from django.http import HttpResponse
-
+import requests
 
 def index(request):
     track_list = Track.objects
