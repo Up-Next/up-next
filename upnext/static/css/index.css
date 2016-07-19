@@ -57,7 +57,7 @@ a:hover {
 .content {
   /*background-color: #0e0b16;*/
   display: table;
-  width: 100%;
+  margin: 0 auto;
   height: 100%;
   padding: 10px;
   /*text-align: center;*/
@@ -70,7 +70,7 @@ a:hover {
 }
 
 .search-bar {
-  width: 35%;
+  width: 100%;
   margin: 0 auto;
 }
 
