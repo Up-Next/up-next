@@ -8,7 +8,6 @@ import spotipy
 from django.contrib.auth.models import User
 
 
-
 def index(request):
     user = request.user
     anon = user.is_anonymous()
