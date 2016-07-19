@@ -1,41 +1,37 @@
 doctype html
-| {% load staticfiles %}
-
-html(lang="en")
+html
   head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible' content='IE=edge, chrome=1')
-    meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
-    title="UpNext Homepage"
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
-    link(rel="stylesheet", href="{% static 'css/index.css' %}")
-
+    title UpNext Homepage
   body
-    img#bg(src="http://jiexi.co/static/bg.png")
+    | {% load staticfiles %}
+    meta(charset='utf-8')
+    meta(content='IE=edge, chrome=1', http-equiv='X-UA-Compatible')
+    meta(content='width=device-width, initial-scale=1, maximum-scale=1', name='viewport')
+    link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css', rel='stylesheet')
+    link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css', rel='stylesheet')
+    link(href="{% static 'css/index.css' %}", rel='stylesheet')
+    img#bg(src='http://jiexi.co/static/bg.png')
     .row.header
       .col-sm-4
         h1.title UpNext
       .col-sm-8
         .create
           span
-            a(href="") + Create a party
+            a(href='') + Create a party
     .content
       .centered
-        if 1
-          h1 To get started, connect to Spotify.
-        if 0
-          h1 Know of a party? Look it up here.
+        | {% if anon %}
+        h1 To get started, connect to Spotify.
         .row
-          if 0
-            .col-sm-12
-                .search-bar
-                  input.form-control(type="text", placeholder="Find your party!")
-          if 1
-            .col-sm-12
-              .log-in
-                a.btn.btn-primary(href="{% url 'social:begin' 'spotify' %}?next={{ request.path }}") Log in with spotify
-
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
-    script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
-
+          .col-sm-12
+            .log-in
+              a.btn.btn-primary(href="{% url 'social:begin' 'spotify' %}?next={{ request.path }}") Log in with spotify
+        | {% else %}
+        h1 Know of a party? Look it up here.
+        .row
+          .col-sm-12
+            .search-bar
+              input.form-control(placeholder='Find your party!', type='text')
+        | {% endif %}
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
