@@ -21,10 +21,6 @@ body {
   min-width: 100%;
   min-height: 100%;
 }
-h1 {
-  color: #e7dfdd;
-  text-align: center;
-}
 
 a {
   color: #e7dfdd;
@@ -60,12 +56,14 @@ a:hover {
   margin: 0 auto;
   height: 100%;
   padding: 10px;
+  color: #e7dfdd;
   /*text-align: center;*/
 }
 
 .centered {
   display: table-cell;
   vertical-align: middle;
+  text-align: center;
 
 }
 

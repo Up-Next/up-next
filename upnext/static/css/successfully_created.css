@@ -1,0 +1,20 @@
+html {
+  height: 100vh;
+  max-height: 90%;
+  width: 100vw;
+  background-color: #0e0b16;
+}
+
+body {
+  color: #4717f6;
+  background-color: #0e0b16;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+}
+
+.row {
+  text-align: center;
+}

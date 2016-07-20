@@ -1,5 +1,10 @@
 extends ./layout.jade
 
 block content
-  link(rel='stylesheet', href="{% static 'css/see_all.css' %}")
-  h1 You created a party!
+  link(rel='stylesheet', href="{% static 'css/successfully_created.css' %}")
+  h1 You successfully created a party!
+
+  h4 Click to visit your page if you are not automatically redirected in the next 5 seconds.
+  .row
+    a.btn.btn-primary(href="{% url 'party_detail' party=party %}") Party time!
+

@@ -8,12 +8,16 @@ block background
 
 block content
   .centered
+    | {% if redirect %}
+    h3 ERROR: You must log in before creating a party.
+    | {% endif %}
+
     | {% if anon %}
     h1 To get started, connect to Spotify.
     .row
       .col-sm-12
         .log-in
-          a.btn.btn-primary(href="{% url 'social:begin' 'spotify' %}?next={{ request.path }}") Log in with spotify
+          a.btn.btn-primary(href="{% url 'social:begin' 'spotify' %}?next=/") Log in with spotify
     | {% else %}
     h1 Know of a party? Look it up here.
     .row

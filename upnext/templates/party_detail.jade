@@ -1,0 +1,12 @@
+extends ./layout.jade
+
+
+block content
+  link(rel='stylesheet', href="{% static 'css/party_detail.css' %}")
+  h2 You are looking at {{ party }}.
+
+  h2 Got a song in mind? Look it up.
+  .row
+    .col-sm-12
+      .search-bar
+        input.form-control(placeholder='Find your song!', type='text')
