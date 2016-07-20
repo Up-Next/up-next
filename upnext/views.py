@@ -1,31 +1,40 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-
-from django.shortcuts import render
+from .forms import PartyForm
+from django.utils import timezone
 from upnext.models import Track, Party
-import requests
-import spotipy
-from django.contrib.auth.models import User
+from django.shortcuts import render
 
 
 def index(request):
     user = request.user
     anon = user.is_anonymous()
     context = {'anon': anon}
-    print user
     return render(request, 'index.html', context)
 
 
-def login(request):
-    return HttpResponse("Welcome to UpNext! Please login to Spotify to continue.")
-
-
-@login_required
 def see_all_parties(request):
     parties = Party.objects.all()
     context = {'parties': parties}
     return render(request, 'see_all_parties.html', context)
 
 
-def party(request, party_name):
-    return HttpResponse("You're looking at party %s." % party_name)
+def successfully_created(request):
+    return render(request, 'successfully_created.html', {})
+
+
+def create(request):
+    if request.method == "POST":
+        form = PartyForm(request.POST)
+        if form.is_valid():
+            new_party = form.save(commit=False)
+            new_party.username = request.user
+            new_party.created_at = timezone.now()
+            new_party.save()
+            print new_party
+            return render(request, 'successfully_created.html', {'form': form})
+        else:
+            # If data is invalid, this adds error messages.
+            # Note: do no reset form
+            return render(request, 'create.html', {'form': form})
+    else:
+        form = PartyForm()
+        return render(request, 'create.html', {'form': form})

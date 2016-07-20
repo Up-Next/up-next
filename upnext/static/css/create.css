@@ -1,0 +1,30 @@
+html {
+  height: 100vh;
+  max-height: 90%;
+  width: 100vw;
+  background-color: #0e0b16;
+}
+
+body {
+  color: #e7dfdd;
+  background-color: #0e0b16;
+}
+
+.blurb {
+  margin: 18px 0;
+  border-bottom: 2px solid #4717f6;
+}
+
+label {
+  font-size: 16px;
+  font-weight: 500;
+  display: block;
+}
+
+input {
+  width: 100%;
+  color: #555;
+}
+button {
+  margin: 10px 0;
+}

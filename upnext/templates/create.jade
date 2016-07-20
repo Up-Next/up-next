@@ -1,0 +1,10 @@
+extends ./layout.jade
+
+
+block content
+  link(href="{% static 'css/create.css' %}", rel='stylesheet')
+  h1.blurb It's time to get this party started!
+  form(method="POST")
+    | {% csrf_token %}
+    | {{ form.as_p }}
+    button.btn.btn-primary(type='submit') Create your party
