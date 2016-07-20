@@ -12,6 +12,7 @@ def index(request):
     user = request.user
     anon = user.is_anonymous()
     context = {'anon': anon}
+    print user
     return render(request, 'index.html', context)
 
 
