@@ -92,27 +92,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-in_heroku = False
-if 'DATABASE_URL' in os.environ:
-    in_heroku = True
-
-import dj_database_url
-if in_heroku:
-    DATABASES = {'default': dj_database_url.config()}
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my_local_db',
+        'USER': 'upnextadmin',
+        'PASSWORD': 'Helloteam!1',
+        'HOST': '',
+        'PORT': '',
     }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -167,4 +156,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 KEY='ce1583f19b4b4d0f810933825b14155b'
 SECRET='42557df5b5104ea6a7133c1346b2e9e1'
-REDIRECT_URI='https://upnext.me/callback'
+REDIRECT_URI='https://upnext.me/complete/spotify/'

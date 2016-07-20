@@ -29,7 +29,6 @@ def create(request):
             new_party.username = request.user
             new_party.created_at = timezone.now()
             new_party.save()
-            print new_party
             return render(request, 'successfully_created.html', {'form': form})
         else:
             # If data is invalid, this adds error messages.
