@@ -1,8 +1,10 @@
 from .forms import PartyForm
 from django.utils import timezone
 from upnext.models import Party
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+import create_party
+import requests
 
 
 @login_required
@@ -10,11 +12,9 @@ def create(request):
     if request.method == "POST":
         form = PartyForm(request.POST)
         if form.is_valid():
-            new_party = form.save(commit=False)
-            new_party.username = request.user.username
-            new_party.created_at = timezone.now()
-            new_party.save()
-            return successfully_created(request, new_party)
+            new_party = create_party.create_party_in_db(request, form)
+            return redirect('successfully_created', party=new_party)
+            # return successfully_created(request, new_party)
         else:
             return render(request, 'create.html', {'form': form})
     else:

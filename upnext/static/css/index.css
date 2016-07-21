@@ -28,9 +28,6 @@ input {
   padding: 5px;
 }
 
-.row {
-}
-
 .col-sm-4 {
   line-height: 54px;
 }
@@ -39,7 +36,7 @@ a {
   color: #e7dfdd;
 }
 
-a:hover {
+a:hover, a:focus {
   text-decoration: none;
   color: #cbc3c1;
 }
