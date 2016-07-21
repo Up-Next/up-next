@@ -31,6 +31,10 @@ input {
 .row {
 }
 
+.col-sm-4 {
+  line-height: 54px;
+}
+
 a {
   color: #e7dfdd;
 }
