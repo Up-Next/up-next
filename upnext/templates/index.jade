@@ -23,5 +23,10 @@ block content
     .row
       .col-sm-12
         .search-bar
-          input.form-control(placeholder='Find your party!', type='text')
+          form(method="GET")
+            | {% csrf_token %}
+            .row
+              input#query(type='text', name='query', placeholder='Press enter to search')
+            .hidden
+              button.btn.btn-primary(type='submit') Search
     | {% endif %}

@@ -22,6 +22,15 @@ body {
   min-height: 100%;
 }
 
+input {
+  width: 70%;
+  color: #555;
+  padding: 5px;
+}
+
+.row {
+}
+
 a {
   color: #e7dfdd;
 }
@@ -68,14 +77,12 @@ a:hover {
 }
 
 .search-bar {
-  width: 100%;
   margin: 0 auto;
 }
 
-@media (max-width: 800px) {
-  .search-bar {
-    width: 70%;
-  }
+.search-bar .row {
+  width: 100%;
+  margin: 10px 0;
 }
 
 .log-in {
@@ -108,3 +115,4 @@ a:hover {
     background: #2b02c1;
     box-shadow: none;
 }
+
