@@ -3,6 +3,7 @@ from django.utils import timezone
 import spotipy.util as util
 from django.conf import settings
 import tokens
+from .models import Party
 
 
 def create_party_in_db(request, form):
@@ -24,5 +25,8 @@ def create_playlist(request, party_name):
       sp.trace = False
       playlist = sp.user_playlist_create(username, party_name)
       print playlist, "playlist"
+      party = Party.objects.get(party_name=party_name)
+      party.uri = playlist['uri']
+      print party.uri
   else:
       print("Can't get token for", username)
