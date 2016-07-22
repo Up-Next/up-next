@@ -12,6 +12,7 @@ class Party(models.Model):
     user_nickname = models.CharField(max_length=100, validators=[nickname_allowed], default='')
     username = models.CharField(max_length=200, default='No Username')
     created_at = models.DateTimeField(default=timezone.now())
+    uri = models.CharField(max_length=200, default='')
 
     def __str__(self):
         return self.party_name
@@ -21,7 +22,7 @@ class Track(models.Model):
     track_title = models.CharField(max_length=200, default='Unnamed Track')
     artist = models.CharField(max_length=200, default='Unknown Artist')
     score = models.IntegerField(default=0)
-    uri = models.CharField(max_length=200, default='spotify:track:7dpH9X1L0EeDCJr0jr1ZX0')
+    uri = models.CharField(max_length=200, default='')
     party = models.ForeignKey(Party, default=0)
 
     def __str__(self):
