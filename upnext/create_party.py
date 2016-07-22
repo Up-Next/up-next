@@ -1,6 +1,9 @@
 import spotipy
 from django.utils import timezone
 import spotipy.util as util
+from django.conf import settings
+import tokens
+
 
 def create_party_in_db(request, form):
     new_party = form.save(commit=False)
@@ -11,9 +14,11 @@ def create_party_in_db(request, form):
     return new_party
 
 def create_playlist(request, party_name):
-  username = request.user.username
+  username = 'up--next'
   user = request.user.social_auth.get(provider='spotify')
-  token = user.extra_data['access_token']
+  token_info = tokens.token_read()
+  token = token_info['ACCESS_TOKEN']
+  refresh = token_info['REFRESH_TOKEN']
   if token:
       sp = spotipy.Spotify(auth=token)
       sp.trace = False

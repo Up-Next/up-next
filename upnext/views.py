@@ -5,6 +5,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 import create_party
 import requests
+from refresh import Refresh
+import spotipy
+import spotipy.util as util
+import spotipy.oauth2 as oauth2
+
+
+has_been_called = False
 
 
 @login_required
@@ -23,9 +30,14 @@ def create(request):
 
 
 def index(request):
+    print has_been_called, "has it"
+    if not has_been_called:
+        refreshThread = Refresh()
+        refreshThread.start()
+        global has_been_called
+        has_been_called = True
     if 'query' in request.GET:
         return search_results(request, request.GET['query'])
-
     user = request.user
     anon = user.is_anonymous()
     return render(request, 'index.html', {'anon': anon, 'redirect': False})
