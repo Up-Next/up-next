@@ -17,6 +17,7 @@ def create_party_in_db(request, form):
 def create_playlist(request, party_name):
   username = 'up--next'
   user = request.user.social_auth.get(provider='spotify')
+  print user.extra_data['access_token'], '\n\n\n', user.extra_data['refresh_token']
   token_info = tokens.token_read()
   token = token_info['ACCESS_TOKEN']
   refresh = token_info['REFRESH_TOKEN']
