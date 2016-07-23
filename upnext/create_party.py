@@ -25,7 +25,7 @@ def create_playlist(request, party_name):
       sp.trace = False
       playlist = sp.user_playlist_create(username, party_name)
       party = Party.objects.get(party_name=party_name)
-      # party.uri = playlist['uri']
-      # party.save()
+      party.uri = playlist['uri']
+      party.save()
   else:
       print("Can't get token for", username)

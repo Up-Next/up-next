@@ -12,7 +12,7 @@ class Party(models.Model):
     user_nickname = models.CharField(max_length=100, validators=[nickname_allowed], default='')
     username = models.CharField(max_length=200, default='No Username')
     created_at = models.DateTimeField(default=timezone.now())
-    # uri = models.CharField(max_length=200, default='')
+    uri = models.CharField(max_length=200, default='')
 
     def __str__(self):
         return self.party_name

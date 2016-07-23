@@ -27,8 +27,8 @@ def add_to_playlist(track_uri, party):
   username = 'up--next'
   track_id = track_uri.split(':')[-1]
   print track_id
-  # party_id = party.uri.split(':')[-1]
+  party_id = party.uri.split(':')[-1]
   sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
-  # results = sp.user_playlist_add_tracks(username, party_id, [track_id])
-  # print results
+  results = sp.user_playlist_add_tracks(username, party_id, [track_id])
+  print results
 
