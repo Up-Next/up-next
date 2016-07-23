@@ -2,7 +2,6 @@ import os
 from os import getcwd
 
 def token_write(ACCESS_TOKEN, REFRESH_TOKEN, filename = 'upnext/tokens.txt'):
-  print(getcwd())
   openfile = open(filename, 'r+')
   openfile.write(ACCESS_TOKEN + '\n' + REFRESH_TOKEN)
   openfile.close()
