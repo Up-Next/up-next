@@ -14,7 +14,7 @@ block content
       .below-album
         form(method="POST")
           | {% csrf_token %}
-          button.btn-xs(name='track_uri', value='{{track.uri}}', type='submit', class='glyphicon glyphicon-plus')
+          button.btn-xs(name='track_info', value='{{ track }}', type='submit', class='glyphicon glyphicon-plus')
           span "{{ track.song_title }}" - {{ track.artist }}
 
   | {% endfor %}

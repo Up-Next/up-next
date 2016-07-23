@@ -1,6 +1,4 @@
 import spotipy
-import spotipy.util as util
-from django.conf import settings
 import tokens
 from .models import Party
 
@@ -19,7 +17,6 @@ def create_playlist(request, party_name):
     print user.extra_data['access_token'], '\n\n\n', user.extra_data['refresh_token']
     token_info = tokens.token_read()
     token = token_info['ACCESS_TOKEN']
-    refresh = token_info['REFRESH_TOKEN']
     if token:
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
