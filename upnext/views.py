@@ -9,6 +9,9 @@ from refresh import Refresh
 import spotipy
 import spotipy.util as util
 import spotipy.oauth2 as oauth2
+import pprint
+from .models import Party
+import tracks
 
 
 has_been_called = False
@@ -37,7 +40,7 @@ def index(request):
         global has_been_called
         has_been_called = True
     if 'query' in request.GET:
-        return search_results(request, request.GET['query'])
+        return party_search_results(request, request.GET['query'])
     user = request.user
     anon = user.is_anonymous()
     return render(request, 'index.html', {'anon': anon, 'redirect': False})
@@ -49,12 +52,27 @@ def login(request):
 
 def party_detail(request, party):
     my_party = get_object_or_404(Party, pk=party)
-    return render(request, 'party_detail.html', {'party': my_party})
+    party_obj = Party.objects.get(party_name = party)
+    if 'track_query' in request.GET:
+        return track_search_results(request, request.GET['track_query'], party_obj)
+    print party_obj.party_name, "name", party_obj.uri, "uri"
+    return render(request, 'party_detail.html', {'party': party_obj})
 
 
-def search_results(request, query):
+def track_search_results(request, query, party):
+    if request.method == "POST":
+        print request.POST, "hello"
+        tracks.add_to_playlist(request.POST['track_uri'], party)
+    sp = spotipy.Spotify()
+    print sp
+    results = sp.search(query, limit=25)
+    cleaned_results = tracks.cleanup_results(results)
+    context = {'results': cleaned_results}
+    return render(request, 'track_search_results.html', context)
+
+def party_search_results(request, query):
     results = Party.objects.filter(party_name__icontains=query)
-    return render(request, 'search_results.html', {'results': results})
+    return render(request, 'party_search_results.html', {'results': results})
 
 
 def see_all_parties(request):

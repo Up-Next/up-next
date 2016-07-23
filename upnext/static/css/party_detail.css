@@ -1,3 +1,20 @@
+body {
+  text-align: center;
+}
+
 .party-name {
   color: #4717f6;
+}
+
+.open-uri {
+  margin: 15px 0;
+}
+
+input {
+  width: 100%;
+}
+
+.placeholder {
+  height: 50%;
+  content: '';
 }

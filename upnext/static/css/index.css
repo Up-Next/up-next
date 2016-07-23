@@ -28,7 +28,7 @@ input {
   padding: 5px;
 }
 
-.col-sm-4 {
+.col-xs-4 {
   line-height: 54px;
 }
 
@@ -99,20 +99,25 @@ a:hover, a:focus {
     text-transform: uppercase;
 }
 
-.btn:focus, .btn:active:focus, .btn.active:focus {
+.btn-xs {
+  border: 0 none;
+  padding: 2px 5px;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn-xs:focus, .btn-xs:active:focus, .btn-xs.active:focus {
     outline: 0 none;
 }
 
-.btn-primary {
+.btn-primary, .btn-xs {
     background: #4717f6;
     color: #ffffff;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+.btn-xs:hover, .btn-xs:focus, .btn-xs:active, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary, .open > .dropdown-toggle.btn-xs {
     background: #582df4;
 }
 
-.btn-primary:active, .btn-primary.active {
+.btn-primary:active, .btn-primary.active, .btn-xs.active, .btn-xs:active {
     background: #2b02c1;
     box-shadow: none;
 }

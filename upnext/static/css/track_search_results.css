@@ -1,0 +1,44 @@
+.party-name {
+  color: #4717f6;
+}
+
+.container {
+  text-align: center;
+}
+
+.open-uri {
+  margin: 15px 0;
+}
+
+input {
+  width: 100%;
+}
+
+.placeholder {
+  height: 50%;
+  content: '';
+}
+
+.album img {
+  height: 200px;
+  width: 200px;
+  border: 2px solid #e7dfdd;
+}
+
+.below-album {
+  margin-bottom: 10px;
+}
+
+.glyphicon {
+  margin: 0 10px;
+}
+
+audio {
+  width: 100%;
+  max-width: 400px;
+}
+
+.btn-primary {
+  height: 30px;
+  width: 30px;
+}

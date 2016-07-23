@@ -27,6 +27,7 @@ def create_playlist(request, party_name):
       print playlist, "playlist"
       party = Party.objects.get(party_name=party_name)
       party.uri = playlist['uri']
-      print party.uri
+      party.save()
+      print party.uri, "uri"
   else:
       print("Can't get token for", username)

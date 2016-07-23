@@ -26,7 +26,7 @@ block content
           form(method="GET")
             | {% csrf_token %}
             .row
-              input#query(type='text', name='query', placeholder='Press enter to search')
+              input#query(type='text', name='query', placeholder='Press Enter to search')
             .hidden
               button.btn.btn-primary(type='submit') Search
     | {% endif %}
