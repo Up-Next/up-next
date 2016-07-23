@@ -55,7 +55,6 @@ def party_detail(request, party):
     party_obj = Party.objects.get(party_name = party)
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
-    print party_obj.party_name, "name", party_obj.uri, "uri"
     return render(request, 'party_detail.html', {'party': party_obj})
 
 
