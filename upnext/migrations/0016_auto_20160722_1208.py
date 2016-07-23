@@ -19,9 +19,8 @@ class Migration(migrations.Migration):
             name='created_at',
             field=models.DateTimeField(default=datetime.datetime(2016, 7, 22, 19, 8, 52, 956507, tzinfo=utc)),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
             model_name='party',
             name='uri',
-            field=models.CharField(default='hello', max_length=200),
         ),
     ]
