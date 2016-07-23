@@ -14,7 +14,7 @@ from .models import Party
 import tracks
 
 
-has_been_called = False
+global has_been_called = False
 
 
 @login_required
