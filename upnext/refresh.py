@@ -1,6 +1,7 @@
 import spotipy
 from django.conf import settings
 import time
+import datetime
 from threading import Thread
 import spotipy.util as util
 import spotipy.oauth2 as oauth2
@@ -9,6 +10,8 @@ import tokens
 
 class Refresh(Thread):
   def refresh_tokens(self):
+    now = time.strftime("%c")
+    print "I refreshed at", now
     username = 'up--next'
     sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIPY_CLIENT_ID,
       settings.SPOTIPY_CLIENT_SECRET,
@@ -20,7 +23,6 @@ class Refresh(Thread):
     tokens.token_write(token_info['access_token'], token_info['refresh_token'])
 
   def refresh(self):
-    print "I refreshed"
     while True:
       self.refresh_tokens()
       time.sleep(60 * 50)

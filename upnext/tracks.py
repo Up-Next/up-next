@@ -4,8 +4,6 @@ import spotipy
 import spotipy.util as util
 import tokens
 
-token_info = tokens.token_read()
-
 
 def cleanup_results(results):
   cleaned_results = []
@@ -24,6 +22,8 @@ def cleanup_results(results):
 
 
 def add_to_playlist(track_uri, party):
+  token_info = tokens.token_read()
+
   username = 'up--next'
   track_id = track_uri.split(':')[-1]
   print track_id

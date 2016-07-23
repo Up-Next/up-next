@@ -8,7 +8,6 @@ def token_write(ACCESS_TOKEN, REFRESH_TOKEN, filename = 'upnext/tokens.txt'):
   openfile.close()
 
 def token_read(filename = 'upnext/tokens.txt'):
-  print(getcwd())
   openfile = open(filename, 'r+')
   tokens = openfile.read()
   tokens = tokens.splitlines()
