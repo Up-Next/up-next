@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 from django.core.validators import RegexValidator
 from django.db import models
-from django.utils import timezone
 
 
 class Party(models.Model):
@@ -12,7 +11,7 @@ class Party(models.Model):
     user_nickname = models.CharField(max_length=80, validators=[nickname_allowed], default='')
     username = models.CharField(max_length=100, default='')
     uri = models.CharField(max_length=140, default='')
-    created_at = models.DateTimeField(default=timezone.now())
+    created_at = models.DateTimeField(default='1995-07-12T13:20:30-08:00')
 
     def __str__(self):
         return self.party_name
