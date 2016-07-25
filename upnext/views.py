@@ -61,6 +61,7 @@ def track_search_results(request, query, party):
     if request.method == "POST":
         print request.POST, "request POST"
         tracks.add_to_playlist(request.POST['track_info'], party)
+        return redirect('party_detail', party=party.party_name)
 
     sp = spotipy.Spotify()
     results = sp.search(query, limit=25)
