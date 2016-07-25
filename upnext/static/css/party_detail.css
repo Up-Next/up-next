@@ -18,3 +18,35 @@ input {
   height: 50%;
   content: '';
 }
+
+.playlist {
+  margin: 20px;
+  width: 80%;
+  text-align: left;
+  border: 2px solid #4717f6;
+  border-top: 1px solid #4717f6;
+}
+
+.title-text {
+  display: inline-block;
+}
+
+.entry {
+  border-top: 1px solid #4717f6;
+  padding: 10px;
+}
+.content {
+  width: 100%;
+}
+
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+}
+

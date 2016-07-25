@@ -50,11 +50,14 @@ def login(request):
 def party_detail(request, party):
     get_object_or_404(Party, pk=party)
     party_obj = Party.objects.get(party_name = party)
+    tracks = party_obj.track_set.all()
+    tracks_ordered = tracks.order_by('-score')
 
+    context = {'party': party_obj, 'tracks': tracks_ordered}
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
 
-    return render(request, 'party_detail.html', {'party': party_obj})
+    return render(request, 'party_detail.html', context)
 
 
 def track_search_results(request, query, party):

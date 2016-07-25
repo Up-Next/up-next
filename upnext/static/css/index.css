@@ -1,7 +1,6 @@
 html {
   height: 100vh;
   max-height: 90%;
-  width: 100vw;
   background-color: #0e0b16;
 }
 
@@ -9,6 +8,7 @@ body {
   height: 100%;
   width: 100%;
   background: none;
+  margin: 0 -5px;
 }
 
 #bg {
@@ -42,9 +42,10 @@ a:hover, a:focus {
 }
 
 .header {
-  margin: 0;
+  margin: 0 -5px;
   background-color: #0e0b16;
   border-bottom: 3px solid #4717f6;
+  padding-left: 20px;
 }
 
 .title {
