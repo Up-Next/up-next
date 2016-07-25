@@ -24,7 +24,11 @@ def add_to_playlist(track_info, party):
     token_info = tokens.token_read()
 
     # Adding on Spotify
-    track_uri = re.search('uri\': u\'(.+?)\',', track_info).group(1)
+    try:
+        track_uri = re.search('uri\': u\'(.+?)\',', track_info).group(1)
+    except AttributeError:
+        print "Track URI not found"
+
     username = 'up--next'
     track_id = track_uri.split(':')[-1]
     party_id = party.uri.split(':')[-1]
@@ -32,7 +36,15 @@ def add_to_playlist(track_info, party):
     sp.user_playlist_add_tracks(username, party_id, [track_id])
 
     # Adding in DB
-    track_artist = re.search('artist\': u\'(.+?)\'', track_info).group(1)
-    track_title = re.search('song_title\': u(.+?), \'', track_info).group(1)
+    try:
+        track_artist = re.search('artist\': u\'(.+?)\'', track_info).group(1)
+    except AttributeError:
+        print "Track artist not found"
+
+    try:
+        track_title = re.search('song_title\': u(.+?), \'', track_info).group(1)
+    except AttributeError:
+        print "Track title not found"
+
     track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party)
     track.save()
