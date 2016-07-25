@@ -4,8 +4,8 @@ from django.db import models
 
 
 class Party(models.Model):
-    party_allowed = RegexValidator(r'^[A-Za-z0-9-_]+$', 'Permitted characters: alphanumeric, dash, underscore.')
-    nickname_allowed = RegexValidator(r'^[A-Za-z]+$', 'Permitted characters: alphabet.')
+    party_allowed = RegexValidator(r'^[A-Za-z0-9-_ \'!]+$', 'Permitted characters: alphanumeric, space, -, _, \', !.')
+    nickname_allowed = RegexValidator(r'^[A-Za-z ]+$', 'Permitted characters: alphabet, space.')
 
     party_name = models.CharField(max_length=100, validators=[party_allowed], default='', primary_key=True)
     user_nickname = models.CharField(max_length=80, validators=[nickname_allowed], default='')
