@@ -12,6 +12,7 @@ class Party(models.Model):
     username = models.CharField(max_length=100, default='')
     uri = models.CharField(max_length=140, default='')
     created_at = models.DateTimeField(default='1995-07-12T13:20:30-08:00')
+    host = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return self.party_name

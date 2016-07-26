@@ -66,6 +66,9 @@ def party_detail(request, party):
             tracks.upvote_track(request.POST['track_up'], party_obj)
         elif 'track_down' in request.POST:
             tracks.downvote_track(request.POST['track_down'], party_obj)
+        else:
+            party.host = request.POST['new_host']
+            party.save()
 
     return render(request, 'party_detail.html', context)
 
