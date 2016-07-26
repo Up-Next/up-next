@@ -6,6 +6,7 @@ from refresh import Refresh
 import spotipy
 from .models import Party
 import tracks
+import scrape
 
 
 has_been_called = False
@@ -53,6 +54,9 @@ def party_detail(request, party):
     tracks_ordered = party_tracks.order_by('-score')
 
     context = {'party': party_obj, 'tracks': tracks_ordered}
+    if request.user.username == 'vsiri1023':
+        current = scrape.get_currently_playing()
+        # print current, "current"
 
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
