@@ -32,9 +32,13 @@ block content
       | {% for track in tracks %}
       .row
         .col-xs-1.entry.votes
-          a.glyphicon.glyphicon-arrow-up(href="")
+          form(method="POST")
+            | {% csrf_token %}
+            button.btn-xs(name='track_up', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-up')
 
-          a.glyphicon.glyphicon-arrow-down(href="")
+          form(method="POST")
+            | {% csrf_token %}
+            button.btn-xs(name='track_down', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-down')
         .col-xs-1.entry.score
           span {{ track.score }}&nbsp;
           | {% if track.score == 1 or track.score == -1 %}

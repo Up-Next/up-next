@@ -18,7 +18,6 @@ def create(request):
         if form.is_valid():
             new_party = create_party.create_party_in_db(request, form)
             return redirect('successfully_created', party=new_party)
-            # return successfully_created(request, new_party)
         else:
             return render(request, 'create.html', {'form': form})
     else:
@@ -50,12 +49,19 @@ def login(request):
 def party_detail(request, party):
     get_object_or_404(Party, pk=party)
     party_obj = Party.objects.get(party_name = party)
-    tracks = party_obj.track_set.all()
-    tracks_ordered = tracks.order_by('-score')
+    party_tracks = party_obj.track_set.all()
+    tracks_ordered = party_tracks.order_by('-score')
 
     context = {'party': party_obj, 'tracks': tracks_ordered}
+
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
+
+    elif request.method == "POST":
+        if 'track_up' in request.POST:
+            tracks.upvote_track(request.POST['track_up'], party_obj)
+        elif 'track_down' in request.POST:
+            tracks.downvote_track(request.POST['track_down'], party_obj)
 
     return render(request, 'party_detail.html', context)
 

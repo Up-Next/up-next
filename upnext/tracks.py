@@ -48,3 +48,57 @@ def add_to_playlist(track_info, party):
 
     track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party)
     track.save()
+
+    old_position = len(party.track_set.all()) - 1
+
+    ordered = party.track_set.order_by('-score')
+    new_position = get_index(track, ordered)
+
+    reorder_playlist(party, old_position, new_position)
+
+
+def upvote_track(track_info, party):
+    track_title = re.search('^(.+?), by', track_info).group(1)
+    up_track = party.track_set.get(track_title=track_title)
+
+    ordered_old = party.track_set.order_by('-score')
+    old_position = get_index(up_track, ordered_old)
+
+    up_track.score += 1
+    up_track.save()
+
+    ordered_new = party.track_set.order_by('-score')
+    new_position = get_index(up_track, ordered_new)
+
+    reorder_playlist(party, old_position, new_position)
+
+
+def downvote_track(track_info, party):
+    track_title = re.search('^(.+?), by', track_info).group(1)
+    down_track = party.track_set.get(track_title=track_title)
+
+    ordered_old = party.track_set.order_by('-score')
+    old_position = get_index(down_track, ordered_old)
+
+    down_track.score -= 1
+    down_track.save()
+
+    ordered_new = party.track_set.order_by('-score')
+    new_position = get_index(down_track, ordered_new)
+
+    reorder_playlist(party, old_position, new_position)
+
+
+def reorder_playlist(party, old_position, new_position):
+    token_info = tokens.token_read()
+
+    party_id = party.uri.split(':')[-1]
+
+    sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
+    sp.user_playlist_reorder_tracks('up--next', party_id, old_position, new_position)
+
+
+def get_index(track, track_list):
+    for index, item in enumerate(track_list):
+        if track == item:
+            return index
