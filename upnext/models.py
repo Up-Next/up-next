@@ -19,7 +19,7 @@ class Party(models.Model):
 
 
 class Track(models.Model):
-    track_title = models.CharField(max_length=100, default='', primary_key=True)
+    track_title = models.CharField(max_length=100, default='')
     artist = models.CharField(max_length=100, default='')
     score = models.IntegerField(default=1)
     uri = models.CharField(max_length=140, default='')

@@ -29,6 +29,10 @@ def add_to_playlist(track_info, party):
     except AttributeError:
         print "Track URI not found"
 
+    if party.track_set.filter(uri=track_uri).exists():
+        print "Can't add duplicate track"
+        return
+
     username = 'up--next'
     track_id = track_uri.split(':')[-1]
     party_id = party.uri.split(':')[-1]
