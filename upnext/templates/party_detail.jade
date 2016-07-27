@@ -47,6 +47,7 @@ block content
           span Artist
 
       | {% for track in tracks %}
+      | {% if track.current == False %}
       .row
         .col-xs-1.entry.votes
           form(method="POST")
@@ -69,11 +70,13 @@ block content
         .col-xs-5.entry.track-artist
           span {{ track.artist }}
 
-      | {% endfor %}
-    | {% else %}
-    h3 No songs added yet!
-
     | {% endif %}
+
+    | {% endfor %}
+  | {% else %}
+  h3 No songs added yet!
+
+  | {% endif %}
   .placeholder
   .row
     .col-sm-12

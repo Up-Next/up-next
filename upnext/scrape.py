@@ -23,7 +23,6 @@ def get_currently_playing(party, embed):
   bond_source = browser.page_source
   browser.quit()
   track_in_db = None
-
   soup = BeautifulSoup(bond_source, "html.parser")
   results = soup.findAll("li", {"class": "track-row playing"})
   if results:
@@ -33,19 +32,17 @@ def get_currently_playing(party, embed):
 
     try:
       old_current_in_db = party.track_set.get(current=True)
+    except:
+      old_current_in_db = None
+
+    if old_current_in_db and old_current_in_db.uri != current_track_uri:
+      sp.user_playlist_remove_all_occurrences_of_tracks('up--next', party_id, [old_current_in_db.uri])
       old_current_in_db.current = False
       old_current_in_db.save()
-    except:
-      pass
+      old_current_in_db.delete()
 
     track_in_db = party.track_set.get(uri=current_track_uri)
     track_in_db.current = True
     track_in_db.save()
-
-    # pls delete from database too :[]
-    # sp.user_playlist_remove_all_occurrences_of_tracks('up--next', party_id, [current_track['uri']])
-    print "did it work"
-    print Track.objects.get(current=True)
-
 
   return track_in_db
