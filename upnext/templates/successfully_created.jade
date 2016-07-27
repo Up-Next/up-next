@@ -4,5 +4,5 @@ block content
   link(rel='stylesheet', href="{% static 'css/successfully_created.css' %}")
   h1 You successfully created a party!
   .row
-    a.btn.btn-primary(href="{% url 'party_detail' party=party %}") Party time!
+    a.btn.btn-primary(href="{% url 'party_detail' party_url=party.url %}") Party time!
 

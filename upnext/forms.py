@@ -6,4 +6,4 @@ class PartyForm(forms.ModelForm):
 
     class Meta:
         model = Party
-        fields = ('party_name', 'creator',)
+        fields = ('party_name', 'url', 'creator',)

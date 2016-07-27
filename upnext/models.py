@@ -11,6 +11,7 @@ class Party(models.Model):
     creator = models.CharField(max_length=80, validators=[nickname_allowed], default='')
     username = models.CharField(max_length=100, default='')
     uri = models.CharField(max_length=140, default='')
+    url = models.CharField(max_length=140, default='', unique=True)
     created_at = models.DateTimeField(default='1995-07-12T13:20:30-08:00')
     host = models.CharField(max_length=100, default='')
     host_display = models.CharField(max_length=100, default='')

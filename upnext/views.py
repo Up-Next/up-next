@@ -18,7 +18,7 @@ def create(request):
         form = PartyForm(request.POST)
         if form.is_valid():
             new_party = create_party.create_party_in_db(request, form)
-            return redirect('successfully_created', party=new_party)
+            return redirect('successfully_created', party_url=new_party.url)
         else:
             return render(request, 'create.html', {'form': form})
     else:
@@ -47,9 +47,8 @@ def login(request):
     return render(request, 'index.html', {'redirect': True, 'anon': True})
 
 
-def party_detail(request, party):
-    get_object_or_404(Party, pk=party)
-    party_obj = Party.objects.get(party_name = party)
+def party_detail(request, party_url):
+    party_obj = Party.objects.get(url=party_url)
     party_tracks = party_obj.track_set.all()
     tracks_ordered = party_tracks.order_by('-score')
     party_embed_url = 'https://embed.spotify.com/?uri=' + party_obj.uri
@@ -88,7 +87,7 @@ def track_search_results(request, query, party):
     if request.method == "POST":
         print request.POST, "request POST"
         tracks.add_to_playlist(request.POST['track_info'], party)
-        return redirect('party_detail', party=party.party_name)
+        return redirect('party_detail', party_url=party.url)
 
     sp = spotipy.Spotify()
     results = sp.search(query, limit=25)
@@ -107,5 +106,6 @@ def see_all_parties(request):
     return render(request, 'see_all_parties.html', {'parties': parties})
 
 
-def successfully_created(request, party):
-    return render(request, 'successfully_created.html', {'party': party})
+def successfully_created(request, party_url):
+    party_obj = Party.objects.get(url=party_url)
+    return render(request, 'successfully_created.html', {'party': party_obj})
