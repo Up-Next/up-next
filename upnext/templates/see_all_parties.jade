@@ -6,5 +6,6 @@ block content
   h1 All Parties
   ul
     | {% for party in parties.all %}
-    li {{ party.party_name }}, by {{ party.user_nickname }}
+    li
+      a(href="party/{{party.url}}") {{ party.party_name }}, by {{ party.user_nickname }}
     | {% endfor %}
