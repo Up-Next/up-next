@@ -50,3 +50,6 @@ input {
     text-align:left;
 }
 
+#display_name {
+  width: 60%;
+}

@@ -8,11 +8,12 @@ class Party(models.Model):
     nickname_allowed = RegexValidator(r'^[A-Za-z ]+$', 'Permitted characters: alphabet, space.')
 
     party_name = models.CharField(max_length=100, validators=[party_allowed], default='', primary_key=True)
-    user_nickname = models.CharField(max_length=80, validators=[nickname_allowed], default='')
+    creator = models.CharField(max_length=80, validators=[nickname_allowed], default='')
     username = models.CharField(max_length=100, default='')
     uri = models.CharField(max_length=140, default='')
     created_at = models.DateTimeField(default='1995-07-12T13:20:30-08:00')
     host = models.CharField(max_length=100, default='')
+    host_display = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return self.party_name
@@ -24,6 +25,7 @@ class Track(models.Model):
     score = models.IntegerField(default=1)
     uri = models.CharField(max_length=140, default='')
     party = models.ForeignKey(Party, default=None)
+    current = models.BooleanField(default=False)
 
     def __str__(self):
         return self.track_title + ", by " + self.artist

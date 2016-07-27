@@ -26,6 +26,7 @@ def create_playlist(request, party_name):
         party.uri = playlist['uri']
         party.created_at = timezone.now()
         party.host = request.user.username
+        party.host_display = request.user.username
         party.save()
     else:
         print("Can't get token for", username)

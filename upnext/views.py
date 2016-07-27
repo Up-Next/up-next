@@ -52,10 +52,17 @@ def party_detail(request, party):
     party_obj = Party.objects.get(party_name = party)
     party_tracks = party_obj.track_set.all()
     tracks_ordered = party_tracks.order_by('-score')
+    party_embed_url = 'https://embed.spotify.com/?uri=' + party_obj.uri
 
-    context = {'party': party_obj, 'tracks': tracks_ordered}
-    if request.user.username == 'vsiri1023':
-        current = scrape.get_currently_playing()
+    try:
+        print "i got here"
+        current = party_obj.track_set.get(current=True)
+        print current
+    except:
+        current = None
+
+    if request.user.username == party_obj.host and party_tracks:
+        current = scrape.get_currently_playing(party_obj, party_embed_url)
         # print current, "current"
 
     if 'track_query' in request.GET:
@@ -64,12 +71,16 @@ def party_detail(request, party):
     elif request.method == "POST":
         if 'track_up' in request.POST:
             tracks.upvote_track(request.POST['track_up'], party_obj)
+
         elif 'track_down' in request.POST:
             tracks.downvote_track(request.POST['track_down'], party_obj)
-        else:
-            party.host = request.POST['new_host']
-            party.save()
 
+        elif 'new_host' in request.POST:
+            party_obj.host = request.user.username
+            party_obj.host_display = request.POST['display_name']
+            party_obj.save()
+    print current, "current before return"
+    context = {'party': party_obj, 'tracks': tracks_ordered, 'current': current, 'embed': party_embed_url}
     return render(request, 'party_detail.html', context)
 
 

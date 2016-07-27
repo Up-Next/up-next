@@ -4,16 +4,17 @@ extends ./layout.jade
 block content
   link(rel='stylesheet', href="{% static 'css/party_detail.css' %}")
   .title-text
-    h2 You are looking at {{ party.party_name }} by {{ party.user_nickname }}.
+    h2 You are looking at {{ party.party_name }} by {{ party.creator }}.
+    span Created on {{ party.created_at }}
+
     .host
-      h2 Currently hosted by {{ party.host }}. Not the right person? Enter the new host:
+      h4 Currently hosted by {{ party.host_display }}. Not the right person? The new host should click this button:
       form(method="POST")
         | {% csrf_token %}
-        input(type='text', name='new_host', placeholder="Who's got the speakers?")
-        .hidden
-          button.btn.btn-primary(type='submit')
+        input#display_name(type='text', name='display_name', placeholder='What do you go by?')
+        br
+        button.btn.btn-primary(name='new_host', type='submit') I'm in charge now!
 
-    span Created on {{ party.created_at }}
     h2 Got a song in mind? Look it up.
     .row
       .col-sm-12
@@ -25,7 +26,15 @@ block content
               button.btn.btn-primary(type='submit') Search
   .row
 
+    .col-xs-12.currently-playing
+      | {% if current %}
+      span {{ current.track_title }} is currently playing.
+      | {% else %}
+      span Nothing is playing. :(
+      | {% endif %}
+
     | {% if tracks %}
+
     .col-xs-12.col-centered.playlist
       .row
         .col-xs-1.entry.default
@@ -70,3 +79,7 @@ block content
     .col-sm-12
       .open-uri
         a.btn.btn-primary(href="{{ party.uri }}") Play in Spotify!
+
+  .iframe
+    iframe(src='{{ party.embed }}' width='300' height='100' frameborder='0' allowtransparency='true')
+

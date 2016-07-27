@@ -4,34 +4,48 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from bs4 import BeautifulSoup
+from .models import Party, Track
+import spotipy
+import tokens
 
-# def get_playlist_url():
 
-
-def get_currently_playing():
+def get_currently_playing(party, embed):
+  token_info = tokens.token_read()
+  sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
   # playlist_url = get_playlist_url()
-  current_track = dict()
+  party_id = party.uri.split(':')[-1]
 
   profile = webdriver.FirefoxProfile()
   profile.set_preference("webdriver.load.strategy", "unstable")
   browser = webdriver.Firefox(firefox_profile=profile)
-  browser.get('https://embed.spotify.com/?uri=spotify%3Auser%3Aup--next%3Aplaylist%3A3JiPzv7ACiVk7ap6mowN71')
+  browser.get(embed)
   time.sleep(3)
   bond_source = browser.page_source
   browser.quit()
+  track_in_db = None
 
   soup = BeautifulSoup(bond_source, "html.parser")
-  now_playing = soup.findAll("li", {"class": "track-row playing"})[0]
-  print now_playing
-  song_title = now_playing['data-name']
-  current_track['artist'] = now_playing['data-artists']
+  results = soup.findAll("li", {"class": "track-row playing"})
+  if results:
+    now_playing = results[0]
+    print now_playing
+    current_track_uri = now_playing['data-uri']
 
-  current_track['title'] = now_playing['data-name']
+    try:
+      old_current_in_db = party.track_set.get(current=True)
+      old_current_in_db.current = False
+      old_current_in_db.save()
+    except:
+      pass
 
-  current_track['uri'] = now_playing['data-uri']
+    track_in_db = party.track_set.get(uri=current_track_uri)
+    track_in_db.current = True
+    track_in_db.save()
 
-  current_track['position'] = now_playing['data-position']
+    # pls delete from database too :[]
+    # sp.user_playlist_remove_all_occurrences_of_tracks('up--next', party_id, [current_track['uri']])
+    print "did it work"
+    print Track.objects.get(current=True)
 
 
-  print current_track
-  return current_track
+  return track_in_db
