@@ -70,19 +70,15 @@ block content
         .col-xs-5.entry.track-artist
           span {{ track.artist }}
 
+      | {% endif %}
+
+      | {% endfor %}
+    | {% else %}
+    h3 No songs added yet!
+
     | {% endif %}
-
-    | {% endfor %}
-  | {% else %}
-  h3 No songs added yet!
-
-  | {% endif %}
   .placeholder
   .row
     .col-sm-12
       .open-uri
         a.btn.btn-primary(href="{{ party.uri }}") Play in Spotify!
-
-  .iframe
-    iframe(src='{{ party.embed }}' width='300' height='100' frameborder='0' allowtransparency='true')
-
