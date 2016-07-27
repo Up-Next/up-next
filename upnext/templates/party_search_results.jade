@@ -7,5 +7,5 @@ block content
   ul
     | {% for party in results.all %}
     li
-      a(href="party/{{party.url}}") {{ party.party_name }}, by {{ party.user_nickname }}
+      a#party_link(href="{% url 'party_detail' party_url=party.url %}") {{ party.party_name }}, by {{ party.user_nickname }}
     | {% endfor %}
