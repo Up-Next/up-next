@@ -11,6 +11,11 @@ import tracks
 has_been_called = False
 
 
+def callback(request):
+    if request.method == "POST":
+        print request.POST
+
+
 @login_required
 def create(request):
     if request.method == "POST":
@@ -65,19 +70,6 @@ def party_detail(request, party_url):
     return render(request, 'party_detail.html', context)
 
 
-def track_search_results(request, query, party):
-    if request.method == "POST":
-        print request.POST, "request POST"
-        tracks.add_to_playlist(request.POST['track_info'], party)
-        return redirect('party_detail', party_url=party.url)
-
-    sp = spotipy.Spotify()
-    results = sp.search(query, limit=25)
-    cleaned_results = tracks.cleanup_results(results)
-    context = {'results': cleaned_results}
-    return render(request, 'track_search_results.html', context)
-
-
 def party_search_results(request, query):
     results = Party.objects.filter(party_name__icontains=query)
     return render(request, 'party_search_results.html', {'results': results})
@@ -91,3 +83,16 @@ def see_all_parties(request):
 def successfully_created(request, party_url):
     party_obj = Party.objects.get(url=party_url)
     return render(request, 'successfully_created.html', {'party': party_obj})
+
+
+def track_search_results(request, query, party):
+    if request.method == "POST":
+        print request.POST, "request POST"
+        tracks.add_to_playlist(request.POST['track_info'], party)
+        return redirect('party_detail', party_url=party.url)
+
+    sp = spotipy.Spotify()
+    results = sp.search(query, limit=25)
+    cleaned_results = tracks.cleanup_results(results)
+    context = {'results': cleaned_results}
+    return render(request, 'track_search_results.html', context)
