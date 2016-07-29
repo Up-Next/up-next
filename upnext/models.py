@@ -4,14 +4,15 @@ from django.db import models
 
 
 class Party(models.Model):
-    party_allowed = RegexValidator(r'^[A-Za-z0-9-_ \'!]+$', 'Permitted characters: alphanumeric, space, -, _, \', !.')
-    nickname_allowed = RegexValidator(r'^[A-Za-z ]+$', 'Permitted characters: alphabet, space.')
+    party_allowed = RegexValidator(r'^[A-Za-z0-9-_ \'!]+$', 'Permitted party name characters: alphanumeric, space, -, _, \', !.')
+    nickname_allowed = RegexValidator(r'^[A-Za-z ]+$', 'Permitted user nickname characters: alphabet, space.')
+    url_allowed = RegexValidator(r'^[A-za-z0-9-]+$', 'Permitted URL characters: alphanumeric, dashes.')
 
     party_name = models.CharField(max_length=100, validators=[party_allowed], default='', primary_key=True)
     user_nickname = models.CharField(max_length=80, validators=[nickname_allowed], default='')
+    url = models.CharField(max_length=140, validators=[url_allowed], default='', unique=True)
     username = models.CharField(max_length=100, default='')
     uri = models.CharField(max_length=140, default='')
-    url = models.CharField(max_length=140, default='', unique=True)
     created_at = models.DateTimeField(default='1995-07-12T13:20:30-08:00')
 
     def __str__(self):
