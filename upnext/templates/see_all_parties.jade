@@ -3,9 +3,24 @@ extends ./layout.jade
 
 block content
   link(rel='stylesheet', href="{% static 'css/see_all.css' %}")
-  h1 All Parties
-  ul
-    | {% for party in parties.all %}
-    li
-      a#party_link(href="{% url 'party_detail' party_url=party.url %}") {{ party.party_name }}, by {{ party.user_nickname }}
-    | {% endfor %}
+  .row
+    .col-xs-12
+      h1.heading All Parties
+      ul
+      .row.all-parties
+        .row
+          .col-xs-4
+            span Party name
+          .col-xs-4
+            span Creator
+          .col-xs-4
+            span Created date
+        | {% for party in parties.all %}
+        .row.striped-row(onclick="location.href = '{% url 'party_detail' party_url=party.url %}'")
+          .col-xs-4
+            a#party_link(href="{% url 'party_detail' party_url=party.url %}") {{ party.party_name }}
+          .col-xs-4
+            | {{ party.user_nickname }}
+          .col-xs-4
+            | {{ party.created_at }}
+        | {% endfor %}

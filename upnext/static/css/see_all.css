@@ -17,3 +17,39 @@ h1 {
 a#party_link {
   text-decoration: underline;
 }
+
+.striped-row:nth-of-type(odd) {
+  background-color: #0e0b16;
+}
+
+.striped-row:nth-of-type(odd):hover {
+  background-color: #282530;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.striped-row:nth-of-type(even) {
+  background-color: #2d2348;
+}
+
+.striped-row:nth-of-type(even):hover {
+  background-color: #473D62;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.all-parties {
+  border: 2px solid #4717f6;
+}
+
+.row {
+  margin: 0;
+}
+
+.content {
+  width: 50%;
+}
+
+.heading {
+  margin: 15px 0 20px 0;
+}
