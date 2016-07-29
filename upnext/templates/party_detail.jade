@@ -16,21 +16,22 @@ block content
             .hidden
               button.btn.btn-primary(type='submit') Search
   .row
-
     | {% if tracks %}
     .col-xs-12.col-centered.playlist
       .row
-        .col-xs-1.entry.default
+        .col-xs-1.entry.default.hidden-xs
           span Vote
-        .col-xs-1.entry.default
+        .col-xs-1.entry.default.hidden-xs
           span Score
+        .col-xs-2.entry.default.visible-xs
+          span Vote
         .col-xs-5.entry.default
           span Song
         .col-xs-5.entry.default
           span Artist
 
       | {% for track in tracks %}
-      .row
+      .row.playlist-row
         .col-xs-1.entry.votes
           form(method="POST")
             | {% csrf_token %}
@@ -42,9 +43,9 @@ block content
         .col-xs-1.entry.score
           span {{ track.score }}&nbsp;
           | {% if track.score == 1 or track.score == -1 %}
-          span.hidden-sm point
+          span.hidden-sm.hidden-xs point
           | {% else %}
-          span.hidden-sm points
+          span.hidden-sm.hidden-xs points
           | {% endif %}
         .col-xs-5.entry.track-name
           span {{ track.track_title }}
