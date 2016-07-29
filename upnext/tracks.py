@@ -65,13 +65,14 @@ def add_to_playlist(track_info, party):
 
 
 def upvote_track(track_info, party, voter_name):
-    track_title = re.search('^(.+?), by', track_info).group(1)
-    up_track = party.track_set.get(track_title=track_title)
+    print track_info, "infos???"
+    track_uri = re.search('uri\': u\'(.+?)\',', track_info).group(1)
+    up_track = party.track_set.get(uri=track_uri)
 
     voter = Voter.objects.get(username=voter_name)
 
     # Ensure voter hasn't already upvoted
-    if not voter.up_tracks.filter(track_title=track_title, party=party).exists():
+    if not voter.up_tracks.filter(uri=track_uri, party=party).exists():
 
         ordered_old = party.track_set.order_by('-score')
         old_position = get_index(up_track, ordered_old)
@@ -79,7 +80,7 @@ def upvote_track(track_info, party, voter_name):
         up_track.score += 1
 
         # If voter has previously downvoted, upvote one more to fix
-        if voter.down_tracks.filter(track_title=track_title, party=party).exists():
+        if voter.down_tracks.filter(uri=track_uri, party=party).exists():
             up_track.score += 1
             voter.down_tracks.remove(up_track)
 
@@ -97,13 +98,13 @@ def upvote_track(track_info, party, voter_name):
 
 
 def downvote_track(track_info, party, voter_name):
-    track_title = re.search('^(.+?), by', track_info).group(1)
-    down_track = party.track_set.get(track_title=track_title)
+    track_uri = re.search('uri\': u\'(.+?)\',', track_info).group(1)
+    down_track = party.track_set.get(uri=track_uri)
 
     voter = Voter.objects.get(username=voter_name)
 
     # Ensure voter hasn't already downvoted
-    if not voter.down_tracks.filter(track_title=track_title, party=party).exists():
+    if not voter.down_tracks.filter(uri=track_uri, party=party).exists():
 
         ordered_old = party.track_set.order_by('-score')
         old_position = get_index(down_track, ordered_old)
@@ -111,7 +112,7 @@ def downvote_track(track_info, party, voter_name):
         down_track.score -= 1
 
         # If voter has previously upvoted, downvote one more to fix
-        if voter.up_tracks.filter(track_title=track_title, party=party).exists():
+        if voter.up_tracks.filter(uri=track_uri, party=party).exists():
             down_track.score -= 1
             voter.up_tracks.remove(down_track)
 
