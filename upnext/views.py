@@ -1,10 +1,10 @@
 from .forms import PartyForm
-from django.shortcuts import render, get_object_or_404, redirect
+from .models import Party, Voter
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-import create_party
 from refresh import Refresh
+import create_party
 import spotipy
-from .models import Party
 import tracks
 
 
@@ -39,6 +39,12 @@ def index(request):
 
     user = request.user
     anon = user.is_anonymous()
+
+    if not anon and Voter.objects.last().username != request.user.username:
+        current_voter, created = Voter.objects.get_or_create(username=request.user.username)
+        current_voter.save()
+        print Voter.objects.first(), "made a new person once"
+
     return render(request, 'index.html', {'anon': anon, 'redirect': False})
 
 
@@ -58,9 +64,9 @@ def party_detail(request, party_url):
 
     elif request.method == "POST":
         if 'track_up' in request.POST:
-            tracks.upvote_track(request.POST['track_up'], party_obj)
+            tracks.upvote_track(request.POST['track_up'], party_obj, request.user.username)
         elif 'track_down' in request.POST:
-            tracks.downvote_track(request.POST['track_down'], party_obj)
+            tracks.downvote_track(request.POST['track_down'], party_obj, request.user.username)
 
     return render(request, 'party_detail.html', context)
 

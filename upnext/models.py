@@ -28,3 +28,12 @@ class Track(models.Model):
 
     def __str__(self):
         return self.track_title + ", by " + self.artist
+
+
+class Voter(models.Model):
+    username = models.CharField(max_length=100, default='', unique=True)
+    up_tracks = models.ManyToManyField(Track, related_name='upvoted')
+    down_tracks = models.ManyToManyField(Track, related_name='downvoted')
+
+    def __str__(self):
+        return "Spotify username: " + self.username

@@ -1,7 +1,7 @@
 import spotipy
 import tokens
 import re
-from .models import Track
+from .models import Track, Voter
 
 
 def cleanup_results(results):
@@ -41,9 +41,12 @@ def add_to_playlist(track_info, party):
 
     # Adding in DB
     try:
-        track_artist = re.search('artist\': u\'(.+?)\'', track_info).group(1)
+        track_artist = re.search('artist\': u\"(.+?)\"', track_info).group(1)
     except AttributeError:
-        print "Track artist not found"
+        try:
+            track_artist = re.search('artist\': u\'(.+?)\'', track_info).group(1)
+        except AttributeError:
+            print "Track artist not found"
 
     try:
         track_title = re.search('song_title\': u(.+?), \'', track_info).group(1)
@@ -61,36 +64,68 @@ def add_to_playlist(track_info, party):
     reorder_playlist(party, old_position, new_position)
 
 
-def upvote_track(track_info, party):
+def upvote_track(track_info, party, voter_name):
     track_title = re.search('^(.+?), by', track_info).group(1)
     up_track = party.track_set.get(track_title=track_title)
 
-    ordered_old = party.track_set.order_by('-score')
-    old_position = get_index(up_track, ordered_old)
+    voter = Voter.objects.get(username=voter_name)
 
-    up_track.score += 1
-    up_track.save()
+    # Ensure voter hasn't already upvoted
+    if not voter.up_tracks.filter(track_title=track_title).exists():
 
-    ordered_new = party.track_set.order_by('-score')
-    new_position = get_index(up_track, ordered_new)
+        ordered_old = party.track_set.order_by('-score')
+        old_position = get_index(up_track, ordered_old)
 
-    reorder_playlist(party, old_position, new_position)
+        up_track.score += 1
+
+        # If voter has previously downvoted, upvote one more to fix
+        if voter.down_tracks.filter(track_title=track_title).exists():
+            up_track.score += 1
+            voter.down_tracks.remove(up_track)
+
+        up_track.save()
+        voter.up_tracks.add(up_track)
+
+        ordered_new = party.track_set.order_by('-score')
+        new_position = get_index(up_track, ordered_new)
+
+        reorder_playlist(party, old_position, new_position)
+
+    else:
+
+        print "Can't vote again sorry"
 
 
-def downvote_track(track_info, party):
+def downvote_track(track_info, party, voter_name):
     track_title = re.search('^(.+?), by', track_info).group(1)
     down_track = party.track_set.get(track_title=track_title)
 
-    ordered_old = party.track_set.order_by('-score')
-    old_position = get_index(down_track, ordered_old)
+    voter = Voter.objects.get(username=voter_name)
 
-    down_track.score -= 1
-    down_track.save()
+    # Ensure voter hasn't already downvoted
+    if not voter.down_tracks.filter(track_title=track_title).exists():
 
-    ordered_new = party.track_set.order_by('-score')
-    new_position = get_index(down_track, ordered_new)
+        ordered_old = party.track_set.order_by('-score')
+        old_position = get_index(down_track, ordered_old)
 
-    reorder_playlist(party, old_position, new_position)
+        down_track.score -= 1
+
+        # If voter has previously upvoted, downvote one more to fix
+        if voter.up_tracks.filter(track_title=track_title).exists():
+            down_track.score -= 1
+            voter.up_tracks.remove(down_track)
+
+        down_track.save()
+        voter.down_tracks.add(down_track)
+
+        ordered_new = party.track_set.order_by('-score')
+        new_position = get_index(down_track, ordered_new)
+
+        reorder_playlist(party, old_position, new_position)
+
+    else:
+
+        print "Can't vote again sorry"
 
 
 def reorder_playlist(party, old_position, new_position):
