@@ -40,10 +40,13 @@ def index(request):
     user = request.user
     anon = user.is_anonymous()
 
-    if not anon and Voter.objects.last().username != request.user.username:
-        current_voter, created = Voter.objects.get_or_create(username=request.user.username)
-        current_voter.save()
-        print Voter.objects.first(), "made a new person once"
+    if not anon:
+        if not Voter.objects.last().exists():
+            current_voter = Voter(username=request.user.username)
+            current_voter.save()
+        elif Voter.objects.last().username != request.user.username:
+            current_voter = Voter.objects.get_or_create(username=request.user.username)
+            current_voter.save()
 
     return render(request, 'index.html', {'anon': anon, 'redirect': False})
 
