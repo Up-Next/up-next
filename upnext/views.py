@@ -41,7 +41,7 @@ def index(request):
     anon = user.is_anonymous()
 
     if not anon:
-        if not Voter.objects.last().exists():
+        if not Voter.objects.exists():
             current_voter = Voter(username=request.user.username)
             current_voter.save()
         elif Voter.objects.last().username != request.user.username:
