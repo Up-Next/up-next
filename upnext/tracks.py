@@ -24,10 +24,7 @@ def add_to_playlist(track_info, party):
     token_info = tokens.token_read()
 
     # Adding on Spotify
-    try:
-        track_uri = re.search('uri\': u\'(.+?)\',', track_info).group(1)
-    except AttributeError:
-        print "Track URI not found"
+    track_uri = get_uri(track_info)
 
     if party.track_set.filter(uri=track_uri).exists():
         print "Can't add duplicate track"
@@ -40,18 +37,8 @@ def add_to_playlist(track_info, party):
     sp.user_playlist_add_tracks(username, party_id, [track_id])
 
     # Adding in DB
-    try:
-        track_artist = re.search('artist\': u\"(.+?)\"', track_info).group(1)
-    except AttributeError:
-        try:
-            track_artist = re.search('artist\': u\'(.+?)\'', track_info).group(1)
-        except AttributeError:
-            print "Track artist not found"
-
-    try:
-        track_title = re.search('song_title\': u(.+?), \'', track_info).group(1)
-    except AttributeError:
-        print "Track title not found"
+    track_artist = get_artist(track_info)
+    track_title = get_title(track_info)
 
     track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party)
     track.save()
@@ -66,12 +53,13 @@ def add_to_playlist(track_info, party):
 
 def upvote_track(track_info, party, voter_name):
     track_title = re.search('^(.+?), by', track_info).group(1)
-    up_track = party.track_set.get(track_title=track_title)
+    track_artist = re.search('by (.+?)$', track_info).group(1)
+    up_track = party.track_set.get(track_title=track_title, artist=track_artist)
 
     voter = Voter.objects.get(username=voter_name)
 
     # Ensure voter hasn't already upvoted
-    if not voter.up_tracks.filter(track_title=track_title, party=party).exists():
+    if not voter.up_tracks.filter(track_title=track_title, artist=track_artist, party=party).exists():
 
         ordered_old = party.track_set.order_by('-score')
         old_position = get_index(up_track, ordered_old)
@@ -79,7 +67,7 @@ def upvote_track(track_info, party, voter_name):
         up_track.score += 1
 
         # If voter has previously downvoted, upvote one more to fix
-        if voter.down_tracks.filter(track_title=track_title, party=party).exists():
+        if voter.down_tracks.filter(track_title=track_title, artist=track_artist, party=party).exists():
             up_track.score += 1
             voter.down_tracks.remove(up_track)
 
@@ -98,12 +86,13 @@ def upvote_track(track_info, party, voter_name):
 
 def downvote_track(track_info, party, voter_name):
     track_title = re.search('^(.+?), by', track_info).group(1)
-    down_track = party.track_set.get(track_title=track_title)
+    track_artist = re.search('by (.+?)$', track_info).group(1)
+    down_track = party.track_set.get(track_title=track_title, artist=track_artist)
 
     voter = Voter.objects.get(username=voter_name)
 
     # Ensure voter hasn't already downvoted
-    if not voter.down_tracks.filter(track_title=track_title, party=party).exists():
+    if not voter.down_tracks.filter(track_title=track_title, artist=track_artist, party=party).exists():
 
         ordered_old = party.track_set.order_by('-score')
         old_position = get_index(down_track, ordered_old)
@@ -111,7 +100,7 @@ def downvote_track(track_info, party, voter_name):
         down_track.score -= 1
 
         # If voter has previously upvoted, downvote one more to fix
-        if voter.up_tracks.filter(track_title=track_title, party=party).exists():
+        if voter.up_tracks.filter(track_title=track_title, artist=track_artist, party=party).exists():
             down_track.score -= 1
             voter.up_tracks.remove(down_track)
 
@@ -141,3 +130,27 @@ def get_index(track, track_list):
     for index, item in enumerate(track_list):
         if track == item:
             return index
+
+
+def get_uri(track_info):
+    try:
+        return re.search('uri\': u\'(.+?)\',', track_info).group(1)
+    except AttributeError:
+        print "Track URI not found"
+
+
+def get_artist(track_info):
+    try:
+        return re.search('artist\': u\"(.+?)\"', track_info).group(1)
+    except AttributeError:
+        try:
+            return re.search('artist\': u\'(.+?)\'', track_info).group(1)
+        except AttributeError:
+            print "Track artist not found"
+
+
+def get_title(track_info):
+    try:
+        return re.search('song_title\': u(.+?), \'', track_info).group(1)
+    except AttributeError:
+        print "Track title not found"
