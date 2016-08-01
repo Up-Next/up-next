@@ -1,0 +1,77 @@
+extends ./layout.jade
+
+
+block content
+  link(rel='stylesheet', href="{% static 'css/about.css' %}")
+  .about-container
+    .row
+      .col-sm-12.about-content
+        .glyphicon.glyphicon-flag
+        h2 Introduction
+        p Welcome to UpNext! UpNext is a tool for collaborative playlist building, perfect for listening to music in any group setting. Users can create a playlist, add tracks, upvote songs they like, and downvote songs they don't like. Tracks are played in descending order of their score (upvotes minus downvotes). Songs that have been downvoted below -10 will be removed from the playlist.
+    .row
+      .col-sm-12.about-content
+        .glyphicon.glyphicon-user
+        h2 Getting Started
+        p
+          | You need a Spotify account in order to get started with UpNext. (Sign up for a free account&nbsp;
+          a(href="https://www.spotify.com/signup/")
+            i here.
+          | ) &nbsp; Log in to your Spotify account on our&nbsp;
+          a(href="http://www.up-next.me")
+            i homepage
+          | &nbsp;to get started.
+    .row
+      .col-sm-12.about-content
+        .glyphicon.glyphicon-th-list
+        h2 Creating a Playlist
+        p Click &nbsp;
+          a(href='http://www.up-next.me/create')
+            i + Create a party &nbsp;
+          | in the top right corner to make a new playlist. You must provide the following information:
+        ul
+          li Party name: The display name for your playlist, for instance &nbsp;
+            tt 'Cool Party 007'
+            | .
+          li Url: A unique custom url at which the voting on the playlist will occur, for instance &nbsp;
+            tt 'cool-party-007'
+            | . Accessed as &nbsp;
+            tt 'up-next.me/party/cool-party-007'
+            | .
+          li User nickname: The display name for the creator of the playlist, for instance &nbsp;
+            tt 'James Bond'
+            | .
+          li Min score: The threshold score for your playlist. A song with a lower score than this number is automatically removed.
+
+        p Note that the valid values for each of these fields are as follows:
+          ul
+            li Party name: Alphabet, numbers, spaces, dashes, underscores, apostrophes, exclamation marks.
+            li Url: Alphabet, numbers, dashes.
+            li User nickname: Alphabet, spaces.
+            li Min score: 0 or less (integer).
+
+        p If all of the fields are validated, you will be taken to a successful creation page. From here, click&nbsp;
+          tt 'Party Time!'&nbsp;
+          | to see your Party detail page.
+
+        p Please note that the new playlist is not created under your Spotify account.
+    .row
+      .col-sm-12.about-content
+        .glyphicon.glyphicon-music
+        h2 Adding Tracks
+        p On the custom page for your Party, use the search bar to look up songs on Spotify that you wish to add to your playlist. Use the player to listen to a 30-second snippet of the song, and hit the
+          tt &nbsp;'+'&nbsp;
+          | button if you wish to add the song to your playlist.
+
+        p If you want to make a different search, simply use the search bar on the results page.
+    .row
+      .col-sm-12.about-content
+        .glyphicon.glyphicon-arrow-up
+        .glyphicon.glyphicon-arrow-down
+        h2 Voting
+        p At any given time, the Party detail page will show you:
+          ul
+            li The currently playing song
+            li The list of upcoming songs, ordered by their score
+
+        p Use the upvote/downvote buttons next to each track in order to change the track's score. If your vote changes play order, the song will move up/down automatically.

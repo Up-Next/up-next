@@ -7,4 +7,4 @@ class PartyForm(forms.ModelForm):
     error_css_class = "error"
     class Meta:
         model = Party
-        fields = ('party_name', 'url', 'user_nickname',)
+        fields = ('party_name', 'url', 'user_nickname', 'min_score',)

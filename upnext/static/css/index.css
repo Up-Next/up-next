@@ -55,7 +55,13 @@ a:hover, a:focus {
   margin: 15px 0;
 }
 
-.create span {
+.create {
+  float: right;
+  font-size: 17px;
+  margin: 15px;
+}
+
+.how-to {
   float: right;
   font-size: 17px;
   margin: 15px;

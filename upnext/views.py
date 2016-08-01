@@ -16,6 +16,10 @@ def callback(request):
         print request.POST
 
 
+def about(request):
+    return render(request, 'about.html', {})
+
+
 @login_required
 def create(request):
     if request.method == "POST":
