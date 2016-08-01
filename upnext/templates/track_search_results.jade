@@ -4,6 +4,9 @@ extends ./layout.jade
 block content
   link(rel='stylesheet', href="{% static 'css/track_search_results.css' %}")
   h2 Add more songs!
+  a.btn.btn-back(href="{% url 'party_detail' party_url=party.url %}")
+    .glyphicon.glyphicon-arrow-left
+    | Back to Party
   .row
     .col-sm-12
       .search-bar

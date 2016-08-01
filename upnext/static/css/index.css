@@ -115,16 +115,20 @@ a:hover, a:focus {
     outline: 0 none;
 }
 
-.btn-primary, .btn-xs {
+.btn-primary, .btn-xs, .btn-back {
     background: #4717f6;
     color: #ffffff;
 }
 
-.btn-xs:hover, .btn-xs:focus, .btn-xs:active, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary, .open > .dropdown-toggle.btn-xs {
+.btn-back:hover {
+  color: #fff;
+}
+
+.btn-xs:hover, .btn-xs:focus, .btn-xs:active, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active,.btn-back:hover, .btn-back:focus, .btn-back:active, .btn-back.active, .open > .dropdown-toggle.btn-primary, .open > .dropdown-toggle.btn-xs {
     background: #582df4;
 }
 
-.btn-primary:active, .btn-primary.active, .btn-xs.active, .btn-xs:active {
+.btn-primary:active, .btn-primary.active, .btn-xs.active, .btn-xs:active, .btn-back:active, .btn-back.active {
     background: #2b02c1;
     box-shadow: none;
 }

@@ -87,7 +87,7 @@ def track_search_results(request, query, party):
     sp = spotipy.Spotify()
     results = sp.search(query, limit=25)
     cleaned_results = tracks.cleanup_results(results)
-    context = {'results': cleaned_results}
+    context = {'results': cleaned_results, 'party': party}
     return render(request, 'track_search_results.html', context)
 
 
