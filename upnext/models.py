@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator
 from django.db import models
 
 
@@ -13,6 +13,7 @@ class Party(models.Model):
     url = models.CharField(max_length=140, validators=[url_allowed], default='', unique=True)
     username = models.CharField(max_length=100, default='')
     uri = models.CharField(max_length=140, default='')
+    min_score = models.IntegerField(default=-10, validators=[MaxValueValidator(0)])
     created_at = models.DateTimeField(default='1995-07-12T13:20:30-08:00')
 
     def __str__(self):

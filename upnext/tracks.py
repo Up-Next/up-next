@@ -112,6 +112,9 @@ def downvote_track(track_info, party, voter_name):
 
         reorder_playlist(party, old_position, new_position)
 
+        if down_track.score <= party.min_score:
+            remove_from_playlist(down_track, party)
+
     else:
 
         print "Can't vote again sorry"
@@ -124,6 +127,21 @@ def reorder_playlist(party, old_position, new_position):
 
     sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
     sp.user_playlist_reorder_tracks('up--next', party_id, old_position, new_position)
+
+
+def remove_from_playlist(track, party):
+    # Remove from Spotify
+    token_info = tokens.token_read()
+
+    username = 'up--next'
+    track_id = track.uri.split(':')[-1]
+    party_id = party.uri.split(':')[-1]
+
+    sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
+    sp.user_playlist_remove_all_occurrences_of_tracks(username, party_id, [track_id])
+
+    # Remove from DB
+    party.track_set.get(uri=track.uri).delete()
 
 
 def get_index(track, track_list):

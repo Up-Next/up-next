@@ -41,12 +41,14 @@ block content
           li User nickname: The display name for the creator of the playlist, for instance &nbsp;
             tt 'James Bond'
             | .
+          li Min score: The threshold score for your playlist. A song with a lower score than this number is automatically removed.
 
-        p Note that the valid characters for each of these fields is as follows:
+        p Note that the valid values for each of these fields are as follows:
           ul
             li Party name: Alphabet, numbers, spaces, dashes, underscores, apostrophes, exclamation marks.
             li Url: Alphabet, numbers, dashes.
             li User nickname: Alphabet, spaces.
+            li Min score: 0 or less (integer).
 
         p If all of the fields are validated, you will be taken to a successful creation page. From here, click&nbsp;
           tt 'Party Time!'&nbsp;
