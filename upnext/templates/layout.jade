@@ -17,9 +17,11 @@ html
         a(href="http://up-next.me")
           img(src="{% static 'images/logo.png' %}", height=30)
       .col-xs-8
-        .create
-          span
+        .links
+          .create
             a(href='/create') + Create a party
+          .how-to
+            a(href='/about') About
     .content
       block content
         h1 Oops! There's nothing here!

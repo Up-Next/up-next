@@ -11,6 +11,10 @@ import tracks
 has_been_called = False
 
 
+def about(request):
+    return render(request, 'about.html', {})
+
+
 @login_required
 def create(request):
     if request.method == "POST":
