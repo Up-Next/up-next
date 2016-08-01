@@ -6,6 +6,7 @@ from refresh import Refresh
 import create_party
 import spotipy
 import tracks
+import re
 
 
 has_been_called = False
@@ -74,6 +75,12 @@ def party_detail(request, party_url):
             tracks.upvote_track(request.POST['track_up'], party_obj, request.user.username)
         elif 'track_down' in request.POST:
             tracks.downvote_track(request.POST['track_down'], party_obj, request.user.username)
+        elif 'remove' in request.POST:
+            track_info = request.POST['remove']
+            track_title = re.search('^(.+?), by', track_info).group(1)
+            track_artist = re.search('by (.+?)$', track_info).group(1)
+            track = party_obj.track_set.get(track_title=track_title, artist=track_artist)
+            tracks.remove_from_playlist(track, party_obj)
 
     return render(request, 'party_detail.html', context)
 

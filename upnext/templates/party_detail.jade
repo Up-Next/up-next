@@ -41,8 +41,10 @@ block content
           span Vote
         .col-xs-5.entry.default
           span Song
-        .col-xs-5.entry.default
+        .col-xs-3.entry.default
           span Artist
+        .col-xs-2.entry.default
+          span
 
       | {% for track in tracks %}
       .row.playlist-row
@@ -63,9 +65,12 @@ block content
           | {% endif %}
         .col-xs-5.entry.track-name
           span {{ track.track_title }}
-
-        .col-xs-5.entry.track-artist
+        .col-xs-3.entry.track-artist
           span {{ track.artist }}
+        .col-xs-2.entry.remove
+          form(method="POST")
+            | {% csrf_token %}
+            button.btn-xs(name='remove', value='{{ track }}', type='submit', class='glyphicon glyphicon-trash')
 
       | {% endfor %}
     | {% else %}
