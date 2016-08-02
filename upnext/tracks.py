@@ -80,8 +80,8 @@ def upvote_track(track_info, party, voter_name):
         reorder_playlist(party, old_position, new_position)
 
     else:
-
-        print "Can't vote again sorry"
+        print "Undoing upvote"
+        undo_vote(up_track, party, voter, 'up')
 
 
 def downvote_track(track_info, party, voter_name):
@@ -116,8 +116,8 @@ def downvote_track(track_info, party, voter_name):
             remove_from_playlist(down_track, party)
 
     else:
-
-        print "Can't vote again sorry"
+        print "Undoing downvote"
+        undo_vote(down_track, party, voter, 'down')
 
 
 def reorder_playlist(party, old_position, new_position):
@@ -142,6 +142,25 @@ def remove_from_playlist(track, party):
 
     # Remove from DB
     party.track_set.get(uri=track.uri).delete()
+
+
+def undo_vote(track, party, voter, up_or_down):
+    ordered_old = party.track_set.order_by('-score')
+    old_position = get_index(track, ordered_old)
+
+    if up_or_down == 'up':
+        track.score -= 1
+        voter.up_tracks.remove(track)
+    elif up_or_down == 'down':
+        track.score += 1
+        voter.down_tracks.remove(track)
+
+    track.save()
+
+    ordered_new = party.track_set.order_by('-score')
+    new_position = get_index(track, ordered_new)
+
+    reorder_playlist(party, old_position, new_position)
 
 
 def get_index(track, track_list):
