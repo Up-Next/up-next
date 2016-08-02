@@ -50,7 +50,7 @@ def index(request):
             current_voter = Voter(username=request.user.username)
             current_voter.save()
         elif Voter.objects.last().username != request.user.username:
-            current_voter = Voter.objects.get_or_create(username=request.user.username)
+            current_voter, _ = Voter.objects.get_or_create(username=request.user.username)
             current_voter.save()
 
     return render(request, 'index.html', {'anon': anon, 'redirect': False})
