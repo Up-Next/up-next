@@ -13,7 +13,7 @@ class Party(models.Model):
     url = models.CharField(max_length=140, validators=[url_allowed], default='', unique=True)
     username = models.CharField(max_length=100, default='')
     uri = models.CharField(max_length=140, default='')
-    min_score = models.IntegerField(default=-10, validators=[MaxValueValidator(0)])
+    min_score = models.IntegerField(default=-10, validators=[MaxValueValidator(-1)])
     created_at = models.DateTimeField(default='1995-07-12T13:20:30-08:00')
 
     def __str__(self):
@@ -23,7 +23,7 @@ class Party(models.Model):
 class Track(models.Model):
     track_title = models.CharField(max_length=100, default='')
     artist = models.CharField(max_length=100, default='')
-    score = models.IntegerField(default=1)
+    score = models.IntegerField(default=0)
     uri = models.CharField(max_length=140, default='')
     party = models.ForeignKey(Party, default=None)
 
