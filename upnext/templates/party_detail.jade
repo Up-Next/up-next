@@ -51,11 +51,20 @@ block content
         .col-xs-1.entry.votes
           form(method="POST")
             | {% csrf_token %}
+            | {% if track in up %}
+            button.btn-xs.selected(name='track_up', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-up')
+            | {% else %}
             button.btn-xs(name='track_up', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-up')
+            | {% endif %}
 
           form(method="POST")
             | {% csrf_token %}
+            | {% if track in down %}
+            button.btn-xs.selected(name='track_down', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-down')
+            | {% else %}
             button.btn-xs(name='track_down', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-down')
+            | {% endif %}
+
         .col-xs-1.entry.score
           span {{ track.score }}&nbsp;
           | {% if track.score == 1 or track.score == -1 %}

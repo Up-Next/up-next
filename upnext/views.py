@@ -64,8 +64,9 @@ def party_detail(request, party_url):
     party_obj = Party.objects.get(url=party_url)
     party_tracks = party_obj.track_set.all()
     tracks_ordered = party_tracks.order_by('-score')
+    voter = Voter.objects.get(username=request.user.username)
 
-    context = {'party': party_obj, 'tracks': tracks_ordered}
+    context = {'party': party_obj, 'tracks': tracks_ordered, 'down': voter.down_tracks.all(), 'up': voter.up_tracks.all()}
 
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
