@@ -20,6 +20,17 @@ block content
   .title-text
     h2 You are looking at {{ party.party_name }} by {{ party.user_nickname }}.
     span Created on {{ party.created_at }}
+
+    .row
+      .col-sm-12
+        .embed
+          iframe(src='https://embed.spotify.com/?uri=' + '{{ party.uri }}', width='300', height='100', frameborder='0', allowtransparency='true')
+
+    .row
+      .col-sm-12
+        .open-uri
+          a.btn.btn-primary(href="{{ party.uri }}") Open in Spotify
+
     h2 Got a song in mind? Look it up.
     .row
       .col-sm-12
@@ -86,11 +97,6 @@ block content
     h3 No songs added yet!
 
     | {% endif %}
-  .placeholder
-  .row
-    .col-sm-12
-      .open-uri
-        a.btn.btn-primary(href="{{ party.uri }}") Play in Spotify!
   .row
     .col-sm-12
       .share-btns

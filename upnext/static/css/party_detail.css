@@ -75,6 +75,11 @@ input {
   display: inline-block;
 }
 
+.embed {
+  height: 80px;
+  margin-top: 35px;
+}
+
 .selected {
   background-color: #a239ca;
 }
