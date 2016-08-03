@@ -2,7 +2,7 @@ import spotipy
 import tokens
 from .models import Party, Track
 from django.utils import timezone
-import tracks
+import unicodedata
 import spotipy.oauth2 as oauth2
 from django.conf import settings
 
@@ -45,7 +45,9 @@ def create_playlist(request, party_name):
                 if uris[i] != "local":
                     if not party.track_set.filter(uri=uris[i]).exists():
                         sp_admin.user_playlist_add_tracks(username, party.uri, [uris[i]])
-                        track = Track(track_title=track_titles[i], artist=artists[i], uri=uris[i], party=party, added_by=request.user.username)
+                        track_artist = unicodedata.normalize('NFKD', artists[i]).encode('ascii', 'ignore')
+                        track_title = unicodedata.normalize('NFKD', track_titles[i]).encode('ascii', 'ignore')
+                        track = Track(track_title=track_title, artist=track_artist, uri=uris[i], party=party, added_by=request.user.username)
                         track.save()
 
     else:
