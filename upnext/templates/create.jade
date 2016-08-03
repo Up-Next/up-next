@@ -6,5 +6,69 @@ block content
   h1.blurb It's time to get this party started!
   form(method="POST")
     | {% csrf_token %}
-    | {{ form.as_p }}
+
+    | {% if form.party_name.errors %}
+    p.error.required
+      label(for='id_party_name') Party name
+      input#id_party_name(type='text', name='party_name', maxlength='100')
+    | {% else %}
+    p.required
+      label(for='id_party_name') Party name
+      input#id_party_name(type='text', name='party_name', maxlength='100')
+    | {% endif %}
+    | {{ form.party_name.errors }}
+
+    | {% if form.url.errors %}
+    p.error.required
+      label(for='id_url') Custom url
+      i How others will find your party
+      input#id_url(type='text', name='url', maxlength='140')
+    | {% else %}
+    p.required
+      label(for='id_url') Custom url
+      i How others will find your party
+      input#id_url(type='text', name='url', maxlength='140')
+    | {% endif %}
+    | {{ form.url.errors }}
+
+    | {% if form.user_nickname.errors %}
+    p.error.required
+      label(for='id_user_nickname') User nickname
+      input#id_user_nickname(type='text', name='user_nickname', maxlength='180')
+    | {% else %}
+    p.required
+      label(for='id_user_nickname') User nickname
+      input#id_user_nickname(type='text', name='user_nickname', maxlength='180')
+    | {% endif %}
+    | {{ form.user_nickname.errors }}
+
+    | {% if form.min_score.errors %}
+    p.error.required
+      label(for='id_min_score') Min score
+      i Songs that reach this score will automatically be removed
+      input#id_min_score(type='number', name='min_score', value='-10')
+    | {% else %}
+    p.required
+      label(for='id_min_score') Min score
+      i Songs that reach this score will automatically be removed
+      input#id_min_score(type='number', name='min_score', value='-10')
+    | {% endif %}
+    | {{ form.min_score.errors }}
+
+    | {% if form.uri.errors %}
+    p.error.required
+      label(for='id_uri') Load songs from any of your playlists
+      select#id_uri(name='uri')
+        | {% for playlist in form.uri.field.choices %}
+        option(value="{{playlist.0}}") {{playlist.1}}
+        | {% endfor %}
+    | {% else %}
+    p.required
+      label(for='id_uri') Load songs from any of your playlists
+      select#id_uri(name='uri')
+        | {% for playlist in form.uri.field.choices %}
+        option(value="{{playlist.0}}") {{playlist.1}}
+        | {% endfor %}
+    | {% endif %}
+
     button.btn.btn-primary(type='submit') Create your party

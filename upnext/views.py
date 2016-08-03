@@ -19,14 +19,14 @@ def about(request):
 @login_required
 def create(request):
     if request.method == "POST":
-        form = PartyForm(request.POST)
+        form = PartyForm(request.user, request.POST)
         if form.is_valid():
             new_party = create_party.create_party_in_db(request, form)
             return redirect('successfully_created', party_url=new_party.url)
         else:
             return render(request, 'create.html', {'form': form})
     else:
-        form = PartyForm()
+        form = PartyForm(request.user)
         return render(request, 'create.html', {'form': form})
 
 
