@@ -22,7 +22,10 @@ def cleanup_one(track_item):
     track['artist'] = track_item['artists'][0]['name']
     track['uri'] = track_item['uri']
     track['preview'] = track_item['preview_url']
-    track['album_image'] = track_item['album']['images'][1]['url']
+    try:
+        track['album_image'] = track_item['album']['images'][1]['url']
+    except:
+        track['album_image'] = ''
     return track
 
 
