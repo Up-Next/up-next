@@ -27,7 +27,7 @@ def create_playlist(request, party_name):
                                        settings.SPOTIPY_CLIENT_SECRET,
                                        settings.SPOTIPY_REDIRECT_URI,
                                        scope=settings.SOCIAL_AUTH_SPOTIFY_SCOPE[0])
-        new_token_info = sp_oauth._refresh_access_token(user.extra_data['refresh_token'])
+        sp_oauth._refresh_access_token(user.extra_data['refresh_token'])
         sp = spotipy.Spotify(auth=token)
         sp.trace = False
         playlist = sp.user_playlist_create(username, party_name)
@@ -46,7 +46,7 @@ def create_playlist(request, party_name):
             for i in range(len(uris)):
                 if not party.track_set.filter(uri=uris[i]).exists():
                     sp.user_playlist_add_tracks(username, party.uri, [uris[i]])
-                    track = Track(track_title=track_titles[i], artist=artists[i], uri=uris[i], party=party, added_by=user.username)
+                    track = Track(track_title=track_titles[i], artist=artists[i], uri=uris[i], party=party, added_by=request.user.username)
                     track.save()
 
     else:
