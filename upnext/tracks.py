@@ -85,7 +85,7 @@ def upvote_track(track_info, party, voter_name):
         new_position = get_index(up_track, ordered_new)
 
         reorder_playlist(party, old_position, new_position)
-        
+
     else:
         print "Undoing upvote"
         undo_vote(up_track, party, voter, 'up')
