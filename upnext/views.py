@@ -60,6 +60,7 @@ def login(request):
     return render(request, 'index.html', {'redirect': True, 'anon': True})
 
 
+@login_required
 def party_detail(request, party_url):
     party_obj = Party.objects.get(url=party_url)
     party_tracks = party_obj.track_set.all()
@@ -86,6 +87,7 @@ def party_detail(request, party_url):
     return render(request, 'party_detail.html', context)
 
 
+@login_required
 def track_search_results(request, query, party):
     if request.method == "POST":
         tracks.add_to_playlist(request.POST['track_uri'], party, request.user.username)
