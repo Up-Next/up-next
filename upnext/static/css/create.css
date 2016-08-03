@@ -11,18 +11,23 @@ body {
   background-color: #0e0b16;
 }
 
+.content {
+  text-align: center;
+}
+
 .blurb {
   margin: 18px 0;
   border-bottom: 2px solid #4717f6;
+  display: inline-block;
 }
 
-label {
-  font-size: 16px;
-  font-weight: 500;
-  display: block;
+.hint {
+  text-align: left;
+  margin-left: 30px;
 }
 
 input {
+  margin-top: 5px;
   width: 90%;
   color: #555;
   padding: 0.8em;
@@ -58,11 +63,22 @@ label {
   padding: 0 1em;
   width: 100%;
   font-size: 15px;
-  margin-left: -20px;
-  margin-bottom: 5px;
+  margin-left: 15px;
+  margin-bottom: 0;
   margin-top: 5px;
+  font-weight: 500;
+  text-align: left;
 }
 
+@media (max-width: 500px) {
+  label {
+    margin-left: 0;
+  }
+
+  .hint {
+    margin-left: 15px;
+  }
+}
 
 li {
   list-style-type: none
@@ -83,4 +99,5 @@ select {
   height: 42px;
   width: 90%;
   font-weight: bold;
+  margin-top: 5px;
 }

@@ -21,12 +21,14 @@ block content
     | {% if form.url.errors %}
     p.error.required
       label(for='id_url') Custom url
-      i How others will find your party
+      .hint
+        i How others will find your party
       input#id_url(type='text', name='url', maxlength='140')
     | {% else %}
     p.required
       label(for='id_url') Custom url
-      i How others will find your party
+      .hint
+        i How others will find your party
       input#id_url(type='text', name='url', maxlength='140')
     | {% endif %}
     | {{ form.url.errors }}
@@ -45,12 +47,14 @@ block content
     | {% if form.min_score.errors %}
     p.error.required
       label(for='id_min_score') Min score
-      i Songs that reach this score will automatically be removed
+      .hint
+        i Songs that reach this score will automatically be removed
       input#id_min_score(type='number', name='min_score', value='-10')
     | {% else %}
     p.required
       label(for='id_min_score') Min score
-      i Songs that reach this score will automatically be removed
+      .hint
+        i Songs that reach this score will automatically be removed
       input#id_min_score(type='number', name='min_score', value='-10')
     | {% endif %}
     | {{ form.min_score.errors }}
