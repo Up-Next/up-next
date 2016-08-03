@@ -19,14 +19,14 @@ block content
   .row.container
     .col-md-12
       .album
-        img(src='{{track.album_image}}')
+        img(src='{{ track.album_image }}')
     .col-md-12
       audio(controls)
         source(src='{{ track.preview }}', type='audio/mpeg')
       .below-album
         form(method="POST")
           | {% csrf_token %}
-          button.btn-xs(name='track_info', value='{{ track }}', type='submit', class='glyphicon glyphicon-plus')
+          button.btn-xs(name='track_uri', value='{{ track.uri }}', type='submit', class='glyphicon glyphicon-plus')
           span "{{ track.song_title }}" - {{ track.artist }}
 
   | {% endfor %}

@@ -1,6 +1,7 @@
 import spotipy
 import tokens
 import re
+import unicodedata
 from .models import Track, Voter
 
 
@@ -9,23 +10,26 @@ def cleanup_results(results):
     tracks = results['tracks']['items']
 
     for item in tracks:
-        track = dict()
-        track['song_title'] = item['name']
-        track['artist'] = item['artists'][0]['name']
-        track['uri'] = item['uri']
-        track['preview'] = item['preview_url']
-        track['album_image'] = item['album']['images'][1]['url']
+        track = cleanup_one(item)
         cleaned_results += [track]
 
     return cleaned_results
 
 
-def add_to_playlist(track_info, party):
+def cleanup_one(track_item):
+    track = dict()
+    track['song_title'] = track_item['name']
+    track['artist'] = track_item['artists'][0]['name']
+    track['uri'] = track_item['uri']
+    track['preview'] = track_item['preview_url']
+    track['album_image'] = track_item['album']['images'][1]['url']
+    return track
+
+
+def add_to_playlist(track_uri, party):
     token_info = tokens.token_read()
 
     # Adding on Spotify
-    track_uri = get_uri(track_info)
-
     if party.track_set.filter(uri=track_uri).exists():
         print "Can't add duplicate track"
         return
@@ -36,9 +40,12 @@ def add_to_playlist(track_info, party):
     sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
     sp.user_playlist_add_tracks(username, party_id, [track_id])
 
+    track_item = sp.track(track_id)
+    track_info = cleanup_one(track_item)
+
     # Adding in DB
-    track_artist = get_artist(track_info)
-    track_title = get_title(track_info)
+    track_artist = unicodedata.normalize('NFKD', track_info['artist']).encode('ascii', 'ignore')
+    track_title = unicodedata.normalize('NFKD', track_info['song_title']).encode('ascii', 'ignore')
 
     track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party)
     track.save()
