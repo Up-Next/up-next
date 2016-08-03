@@ -46,7 +46,7 @@ def create_playlist(request, party_name):
             for i in range(len(uris)):
                 if not party.track_set.filter(uri=uris[i]).exists():
                     sp.user_playlist_add_tracks(username, party.uri, [uris[i]])
-                    track = Track(track_title=track_titles[i], artist=artists[i], uri=uris[i], party=party)
+                    track = Track(track_title=track_titles[i], artist=artists[i], uri=uris[i], party=party, added_by=user.username)
                     track.save()
 
     else:

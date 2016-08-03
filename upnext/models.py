@@ -26,6 +26,7 @@ class Track(models.Model):
     score = models.IntegerField(default=0)
     uri = models.CharField(max_length=140, default='')
     party = models.ForeignKey(Party, default=None)
+    added_by = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return self.track_title + ", by " + self.artist

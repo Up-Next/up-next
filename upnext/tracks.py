@@ -26,7 +26,7 @@ def cleanup_one(track_item):
     return track
 
 
-def add_to_playlist(track_uri, party):
+def add_to_playlist(track_uri, party, added_by_user):
     token_info = tokens.token_read()
 
     # Adding on Spotify
@@ -47,7 +47,7 @@ def add_to_playlist(track_uri, party):
     track_artist = unicodedata.normalize('NFKD', track_info['artist']).encode('ascii', 'ignore')
     track_title = unicodedata.normalize('NFKD', track_info['song_title']).encode('ascii', 'ignore')
 
-    track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party)
+    track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party, added_by=added_by_user)
     track.save()
 
     old_position = len(party.track_set.all()) - 1

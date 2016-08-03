@@ -66,7 +66,7 @@ def party_detail(request, party_url):
     tracks_ordered = party_tracks.order_by('-score')
     voter = Voter.objects.get(username=request.user.username)
 
-    context = {'party': party_obj, 'tracks': tracks_ordered, 'down': voter.down_tracks.all(), 'up': voter.up_tracks.all()}
+    context = {'party': party_obj, 'tracks': tracks_ordered, 'down': voter.down_tracks.all(), 'up': voter.up_tracks.all(), 'added_by': request.user.username}
 
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
@@ -88,7 +88,7 @@ def party_detail(request, party_url):
 
 def track_search_results(request, query, party):
     if request.method == "POST":
-        tracks.add_to_playlist(request.POST['track_uri'], party)
+        tracks.add_to_playlist(request.POST['track_uri'], party, request.user.username)
         return redirect('party_detail', party_url=party.url)
 
     sp = spotipy.Spotify()

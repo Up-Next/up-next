@@ -87,10 +87,12 @@ block content
           span {{ track.track_title }}
         .col-xs-3.entry.track-artist
           span {{ track.artist }}
+        | {% if track.added_by == added_by %}
         .col-xs-2.entry.remove
           form(method="POST")
             | {% csrf_token %}
             button.btn-xs(name='remove', value='{{ track }}', type='submit', class='glyphicon glyphicon-trash')
+        | {% endif %}
 
       | {% endfor %}
     | {% else %}
