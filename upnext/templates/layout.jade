@@ -16,12 +16,28 @@ html
       .col-xs-4
         a(href="http://up-next.me")
           img(src="{% static 'images/logo.png' %}", height=30)
-      .col-xs-8
-        .links
-          .create
-            a(href='/create') + Create a party
-          .how-to
-            a(href='/about') About
+    .nav-container.col-xs-12
+      nav.navbar.navbar-inverse.navbar-static-top(role='navigation')
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        // Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href='index.php') Home
+            li
+              a(href='about.php') About
+            li
+              a(href='#portfolio') Portfolio
+            //- .links
+            //-   .create
+            //-     a(href='/create') + Create a party
+            //-   .how-to
+            //-     a(href='/about') About
     .content
       block content
         h1 Oops! There's nothing here!

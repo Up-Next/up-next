@@ -133,3 +133,66 @@ a:hover, a:focus {
     box-shadow: none;
 }
 
+.navbar, .navbar-inverse {
+  border-radius: 0;
+  border: none;
+  margin-bottom: 0;
+  min-height: 80px;
+}
+
+.nav li {
+  display: inline;
+  color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ffffff;
+  font-family: Lato;
+  font-size: 1.7em;
+  font-weight: 300;
+  padding: 30px 25px 33px 25px;
+}
+
+.navbar-inverse .navbar-nav li a:hover {
+  background-color: #444444;
+  transition: 0.7s all linear;
+  height: 100%;
+}
+
+.nav-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.navbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 57px;
+  overflow: hidden;
+}
+
+/*.navbar-nav {
+  font-size: 15px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}*/
+
+/*.navbar-nav li a {
+  font-size: 9px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*/
+
+.navbar-inverse .navbar-nav > li > a {
+  font-size: 15px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding: 0 15px;
+}
+
+.navbar-inverse {
+  background-image: none;
+  background-color: #0e0b16;
+  height: 54px;
+  min-height: 54px;
+}
