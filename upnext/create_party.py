@@ -7,7 +7,6 @@ import spotipy.oauth2 as oauth2
 from django.conf import settings
 
 
-
 def create_party_in_db(request, form):
     new_party = form.save(commit=False)
     new_party.username = request.user.username
@@ -19,7 +18,6 @@ def create_party_in_db(request, form):
 def create_playlist(request, party_name):
     username = 'up--next'
     user = request.user.social_auth.get(provider='spotify')
-    print "helloooooo"
     token_info = tokens.token_read()
     token = token_info['ACCESS_TOKEN']
     if token:
