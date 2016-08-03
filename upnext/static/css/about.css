@@ -1,28 +1,29 @@
 .row:nth-of-type(odd) {
-  background-color: #0e0b16;
+    background-color: #0e0b16;
 }
 
 .row:nth-of-type(even) {
-  background-color: #2d2348;
+    background-color: #2d2348;
 }
 
 .about-content {
-   padding: 10px 20px;
-   padding-left: 30px;
+    padding: 10px 20px;
+    padding-left: 30px;
 }
 
 h2 {
-   margin-top: 15px;
-   display: inline-block;
+    margin-top: 15px;
+    display: inline-block;
 }
 
 .glyphicon {
-   display: inline-block;
-   font-size: 16px;
-   margin-right: 10px;
-   line-height: 30px;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 10px;
+    vertical-align: 6px;
+    line-height: 30px;
 }
 
 .glyphicon-arrow-up {
-   margin-right: 0;
+    margin-right: 0;
 }

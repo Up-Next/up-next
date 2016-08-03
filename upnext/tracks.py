@@ -1,6 +1,7 @@
 import spotipy
 import tokens
 import re
+import unicodedata
 from .models import Track, Voter
 
 
@@ -9,23 +10,26 @@ def cleanup_results(results):
     tracks = results['tracks']['items']
 
     for item in tracks:
-        track = dict()
-        track['song_title'] = item['name']
-        track['artist'] = item['artists'][0]['name']
-        track['uri'] = item['uri']
-        track['preview'] = item['preview_url']
-        track['album_image'] = item['album']['images'][1]['url']
+        track = cleanup_one(item)
         cleaned_results += [track]
 
     return cleaned_results
 
 
-def add_to_playlist(track_info, party):
+def cleanup_one(track_item):
+    track = dict()
+    track['song_title'] = track_item['name']
+    track['artist'] = track_item['artists'][0]['name']
+    track['uri'] = track_item['uri']
+    track['preview'] = track_item['preview_url']
+    track['album_image'] = track_item['album']['images'][1]['url']
+    return track
+
+
+def add_to_playlist(track_uri, party):
     token_info = tokens.token_read()
 
     # Adding on Spotify
-    track_uri = get_uri(track_info)
-
     if party.track_set.filter(uri=track_uri).exists():
         print "Can't add duplicate track"
         return
@@ -36,9 +40,12 @@ def add_to_playlist(track_info, party):
     sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
     sp.user_playlist_add_tracks(username, party_id, [track_id])
 
+    track_item = sp.track(track_id)
+    track_info = cleanup_one(track_item)
+
     # Adding in DB
-    track_artist = get_artist(track_info)
-    track_title = get_title(track_info)
+    track_artist = unicodedata.normalize('NFKD', track_info['artist']).encode('ascii', 'ignore')
+    track_title = unicodedata.normalize('NFKD', track_info['song_title']).encode('ascii', 'ignore')
 
     track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party)
     track.save()
@@ -80,8 +87,8 @@ def upvote_track(track_info, party, voter_name):
         reorder_playlist(party, old_position, new_position)
 
     else:
-
-        print "Can't vote again sorry"
+        print "Undoing upvote"
+        undo_vote(up_track, party, voter, 'up')
 
 
 def downvote_track(track_info, party, voter_name):
@@ -116,8 +123,8 @@ def downvote_track(track_info, party, voter_name):
             remove_from_playlist(down_track, party)
 
     else:
-
-        print "Can't vote again sorry"
+        print "Undoing downvote"
+        undo_vote(down_track, party, voter, 'down')
 
 
 def reorder_playlist(party, old_position, new_position):
@@ -142,6 +149,25 @@ def remove_from_playlist(track, party):
 
     # Remove from DB
     party.track_set.get(uri=track.uri).delete()
+
+
+def undo_vote(track, party, voter, up_or_down):
+    ordered_old = party.track_set.order_by('-score')
+    old_position = get_index(track, ordered_old)
+
+    if up_or_down == 'up':
+        track.score -= 1
+        voter.up_tracks.remove(track)
+    elif up_or_down == 'down':
+        track.score += 1
+        voter.down_tracks.remove(track)
+
+    track.save()
+
+    ordered_new = party.track_set.order_by('-score')
+    new_position = get_index(track, ordered_new)
+
+    reorder_playlist(party, old_position, new_position)
 
 
 def get_index(track, track_list):

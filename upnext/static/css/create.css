@@ -59,8 +59,8 @@ label {
   width: 100%;
   font-size: 15px;
   margin-left: -20px;
-  margin-bottom: 10px;
-  /*border-bottom: 2px #a239ca solid;*/
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 
@@ -71,7 +71,16 @@ li {
 ul {
   padding: 0;
   margin: 0;
-  margin-left: -6px;
+  margin-top: -20px;
+  margin-bottom: 10px;
   color: #a239ca;
   font-weight: 600;
+}
+
+select {
+  background-color: white;
+  color: #555;
+  height: 42px;
+  width: 90%;
+  font-weight: bold;
 }

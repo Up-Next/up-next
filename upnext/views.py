@@ -6,6 +6,7 @@ from refresh import Refresh
 import create_party
 import spotipy
 import tracks
+import re
 
 
 has_been_called = False
@@ -23,14 +24,14 @@ def about(request):
 @login_required
 def create(request):
     if request.method == "POST":
-        form = PartyForm(request.POST)
+        form = PartyForm(request.user, request.POST)
         if form.is_valid():
             new_party = create_party.create_party_in_db(request, form)
             return redirect('successfully_created', party_url=new_party.url)
         else:
             return render(request, 'create.html', {'form': form})
     else:
-        form = PartyForm()
+        form = PartyForm(request.user)
         return render(request, 'create.html', {'form': form})
 
 
@@ -54,7 +55,7 @@ def index(request):
             current_voter = Voter(username=request.user.username)
             current_voter.save()
         elif Voter.objects.last().username != request.user.username:
-            current_voter = Voter.objects.get_or_create(username=request.user.username)
+            current_voter, _ = Voter.objects.get_or_create(username=request.user.username)
             current_voter.save()
 
     return render(request, 'index.html', {'anon': anon, 'redirect': False})
@@ -68,8 +69,9 @@ def party_detail(request, party_url):
     party_obj = Party.objects.get(url=party_url)
     party_tracks = party_obj.track_set.all()
     tracks_ordered = party_tracks.order_by('-score')
+    voter = Voter.objects.get(username=request.user.username)
 
-    context = {'party': party_obj, 'tracks': tracks_ordered}
+    context = {'party': party_obj, 'tracks': tracks_ordered, 'down': voter.down_tracks.all(), 'up': voter.up_tracks.all()}
 
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
@@ -79,6 +81,12 @@ def party_detail(request, party_url):
             tracks.upvote_track(request.POST['track_up'], party_obj, request.user.username)
         elif 'track_down' in request.POST:
             tracks.downvote_track(request.POST['track_down'], party_obj, request.user.username)
+        elif 'remove' in request.POST:
+            track_info = request.POST['remove']
+            track_title = re.search('^(.+?), by', track_info).group(1)
+            track_artist = re.search('by (.+?)$', track_info).group(1)
+            track = party_obj.track_set.get(track_title=track_title, artist=track_artist)
+            tracks.remove_from_playlist(track, party_obj)
 
     return render(request, 'party_detail.html', context)
 

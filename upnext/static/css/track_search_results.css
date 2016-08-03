@@ -33,6 +33,10 @@ input {
   margin: 0 10px;
 }
 
+.glyphicon.glyphicon-arrow-left {
+  margin: 0 7px 0 0;
+}
+
 audio {
   width: 100%;
   max-width: 400px;
@@ -41,6 +45,10 @@ audio {
 .btn-primary {
   height: 30px;
   width: 30px;
+}
+
+.btn-back {
+    margin: 20px 0 20px 0;
 }
 
 .search-bar {

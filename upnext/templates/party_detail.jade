@@ -2,10 +2,35 @@ extends ./layout.jade
 
 
 block content
+  #fb-root
+  script.
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7&appId=151373594955639";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  script(language='javascript').
+    function emailCurrentPage(){
+    window.location.href="mailto:?subject="+document.title+"&body="+escape(window.location.href);
+    }
+
   link(rel='stylesheet', href="{% static 'css/party_detail.css' %}")
   .title-text
     h2 You are looking at {{ party.party_name }} by {{ party.user_nickname }}.
     span Created on {{ party.created_at }}
+
+    .row
+      .col-sm-12
+        .embed
+          iframe(src='https://embed.spotify.com/?uri=' + '{{ party.uri }}', width='300', height='100', frameborder='0', allowtransparency='true')
+
+    .row
+      .col-sm-12
+        .open-uri
+          a.btn.btn-primary(href="{{ party.uri }}") Open in Spotify
+
     h2 Got a song in mind? Look it up.
     .row
       .col-sm-12
@@ -27,19 +52,30 @@ block content
           span Vote
         .col-xs-5.entry.default
           span Song
-        .col-xs-5.entry.default
+        .col-xs-3.entry.default
           span Artist
+        .col-xs-2.entry.default
+          span
 
       | {% for track in tracks %}
       .row.playlist-row
         .col-xs-1.entry.votes
           form(method="POST")
             | {% csrf_token %}
+            | {% if track in up %}
+            button.btn-xs.selected(name='track_up', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-up')
+            | {% else %}
             button.btn-xs(name='track_up', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-up')
+            | {% endif %}
 
           form(method="POST")
             | {% csrf_token %}
+            | {% if track in down %}
+            button.btn-xs.selected(name='track_down', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-down')
+            | {% else %}
             button.btn-xs(name='track_down', value='{{ track }}', type='submit', class='glyphicon glyphicon-arrow-down')
+            | {% endif %}
+
         .col-xs-1.entry.score
           span {{ track.score }}&nbsp;
           | {% if track.score == 1 or track.score == -1 %}
@@ -49,17 +85,34 @@ block content
           | {% endif %}
         .col-xs-5.entry.track-name
           span {{ track.track_title }}
-
-        .col-xs-5.entry.track-artist
+        .col-xs-3.entry.track-artist
           span {{ track.artist }}
+        .col-xs-2.entry.remove
+          form(method="POST")
+            | {% csrf_token %}
+            button.btn-xs(name='remove', value='{{ track }}', type='submit', class='glyphicon glyphicon-trash')
 
       | {% endfor %}
     | {% else %}
     h3 No songs added yet!
 
     | {% endif %}
-  .placeholder
   .row
     .col-sm-12
-      .open-uri
-        a.btn.btn-primary(href="{{ party.uri }}") Play in Spotify!
+      .share-btns
+        h4 Get the votes in before the party starts. Share this page!
+        .share
+          .fb-share-button(data-href='', data-layout='button', data-size='small', data-mobile-iframe='true')
+                a.fb-xfbml-parse-ignore(target='_blank', href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&src=sdkpreparse') Share on Facebook
+          style(media='screen', type='text/css').
+            .fb_iframe_widget span
+            {
+            vertical-align: baseline !important;
+            }
+        .share
+          a.twitter-share-button(href='https://twitter.com/share', data-text='Vote on this UpNext playlist!', data-show-count='false') Tweet
+          script(async='', src='//platform.twitter.com/widgets.js', charset='utf-8')
+        .share
+          a.email-share-button(href='javascript:emailCurrentPage()')
+            .glyphicon.glyphicon-envelope
+            | &nbsp; Email

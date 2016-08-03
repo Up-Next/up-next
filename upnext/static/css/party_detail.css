@@ -57,3 +57,33 @@ input {
 .playlist-row:nth-of-type(even) {
   background-color: #2d2348;
 }
+
+.email-share-button {
+  border-radius: 5px;
+  background-color: #566776;
+  width: 60px;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 7px;
+  vertical-align: super;
+  color: white;
+}
+
+.share {
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.embed {
+  height: 80px;
+  margin-top: 35px;
+}
+
+.selected {
+  background-color: #a239ca;
+}
+
+.selected:hover {
+  background-color: #a239ca;
+}
