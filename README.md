@@ -25,7 +25,7 @@ If all of the fields are validated, you will be taken to a successful creation p
 # Loading from a Playlist
 On the [`+ Create a party`](http://www.up-next.me/create) page, you may also choose to create an UpNext Party using an existing Spotify playlist that you own. To do this, select a playlist from the dropdown **Load songs from any of your playlists** menu.
 
-Please not that you must still provde a Party name, URL, nickname, and min score.
+Please note that you must still provide a Party name, URL, nickname, and min score.
 
 # Adding Tracks
 On the custom page for your Party, use the search bar to look up songs on Spotify that you wish to add to your playlist. Use the player to listen to a 30-second snippet of the song, and hit the `+` button if you wish to add the song to your playlist.
