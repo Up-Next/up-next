@@ -48,7 +48,7 @@ def create_playlist(request, party):
 
 def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
     tracks_info = client.user_playlist_tracks(user_auth, playlist_id=playlist_uri)['items']
-    track_uris = [item['track']['uri'] if 'local' not in item else 'local' for item in tracks_info]
+    track_uris = [item['track']['uri'] if 'local' not in item['track']['uri'] else 'local' for item in tracks_info]
     track_titles = [item['track']['name'] for item in tracks_info]
     track_previews = [item['track']['preview_url'] for item in tracks_info]
     artists = [item['track']['artists'][0]['name'] for item in tracks_info]
@@ -56,7 +56,6 @@ def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
     for i in xrange(len(track_uris)):
 
         if track_uris[i] != 'local':
-
             if not party.track_set.filter(uri=track_uris[i]).exists():
                 # Add all the tracks to the DB
                 track_artist = unicodedata.normalize('NFKD', artists[i]).encode('ascii', 'ignore')
@@ -65,7 +64,7 @@ def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
                               artist=track_artist,
                               uri=track_uris[i],
                               party=party,
-                              preview=track_previews[i],
+                              preview=(track_previews[i] or ""),
                               added_by=added_by)
                 track.save()
 

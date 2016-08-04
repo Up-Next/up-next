@@ -49,7 +49,7 @@ def add_to_playlist(track_uri, party, added_by_user):
     # Adding in DB
     track_artist = unicodedata.normalize('NFKD', track_info['artist']).encode('ascii', 'ignore')
     track_title = unicodedata.normalize('NFKD', track_info['song_title']).encode('ascii', 'ignore')
-    track_preview = track_info['preview']
+    track_preview = track_info['preview'] or ""
 
     track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party, preview=track_preview, added_by=added_by_user)
     track.save()
@@ -140,7 +140,6 @@ def remove_min_score(party):
 
 
 def reorder_playlist(party, old_position, new_position):
-    print "called"
     token_info = tokens.token_read()
 
     party_id = party.uri.split(':')[-1]
