@@ -50,6 +50,7 @@ def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
     tracks_info = client.user_playlist_tracks(user_auth, playlist_id=playlist_uri)['items']
     track_uris = [item['track']['uri'] if 'local' not in item else 'local' for item in tracks_info]
     track_titles = [item['track']['name'] for item in tracks_info]
+    track_previews = [item['track']['preview_url'] for item in tracks_info]
     artists = [item['track']['artists'][0]['name'] for item in tracks_info]
 
     for i in xrange(len(track_uris)):
@@ -64,6 +65,7 @@ def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
                               artist=track_artist,
                               uri=track_uris[i],
                               party=party,
+                              preview=track_previews[i],
                               added_by=added_by)
                 track.save()
 

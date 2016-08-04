@@ -89,10 +89,19 @@ block content
         .col-xs-3.entry.track-artist
           span {{ track.artist }}
         | {% if track.added_by == added_by %}
-        .col-xs-2.entry.remove
+        .col-xs-1.entry.play.hidden-xs
+          audio(controls)
+            source(src='{{ track.preview }}', type='audio/mpeg')
+        .col-xs-1.entry.remove.hidden-xs
           form(method="POST")
             | {% csrf_token %}
             button.btn-xs(name='remove', value='{{ track }}', type='submit', class='glyphicon glyphicon-trash')
+        .col-xs-2.entry.remove.visible-xs
+          form(method="POST")
+            | {% csrf_token %}
+            button.btn-xs(name='remove', value='{{ track }}', type='submit', class='glyphicon glyphicon-trash')
+
+
         | {% endif %}
 
       | {% endfor %}

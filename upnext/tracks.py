@@ -49,8 +49,9 @@ def add_to_playlist(track_uri, party, added_by_user):
     # Adding in DB
     track_artist = unicodedata.normalize('NFKD', track_info['artist']).encode('ascii', 'ignore')
     track_title = unicodedata.normalize('NFKD', track_info['song_title']).encode('ascii', 'ignore')
+    track_preview = track_info['preview']
 
-    track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party, added_by=added_by_user)
+    track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party, preview=track_preview, added_by=added_by_user)
     track.save()
 
     old_position = len(party.track_set.all()) - 1
@@ -139,7 +140,6 @@ def reorder_playlist(party, old_position, new_position):
     party_id = party.uri.split(':')[-1]
 
     sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
-    print old_position, new_position, "spotify u suck"
     if new_position > old_position:
         new_position += 1
     sp.user_playlist_reorder_tracks('up--next', party_id, old_position, new_position)

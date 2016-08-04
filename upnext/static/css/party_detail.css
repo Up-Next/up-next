@@ -92,3 +92,19 @@ span {
   display: inline-block;
   margin-top: 5px;
 }
+
+audio {
+  width: 45px;
+}
+
+.btn-xs {
+  line-height: 23px;
+  width: 30px;
+}
+
+
+@media (max-width: 600px) {
+  .btn-xs {
+    width: 20px;
+  }
+}
