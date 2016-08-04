@@ -1,6 +1,8 @@
 from .forms import PartyForm
 from .models import Party, Voter
-from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from refresh import Refresh
 import create_party
@@ -18,11 +20,11 @@ def about(request):
 
 @login_required
 def create(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = PartyForm(request.user, request.POST)
         if form.is_valid():
             new_party = create_party.create_party_in_db(request, form)
-            return redirect('successfully_created', party_url=new_party.url)
+            return HttpResponseRedirect(reverse('successfully_created', args=(new_party.url,)))
         else:
             return render(request, 'create.html', {'form': form})
     else:
@@ -31,8 +33,6 @@ def create(request):
 
 
 def index(request):
-    print has_been_called, "has been called"
-
     if not has_been_called:
         refreshThread = Refresh()
         refreshThread.start()
@@ -72,7 +72,7 @@ def party_detail(request, party_url):
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
 
-    elif request.method == "POST":
+    elif request.method == 'POST':
         if 'track_up' in request.POST:
             tracks.upvote_track(request.POST['track_up'], party_obj, request.user.username)
         elif 'track_down' in request.POST:
@@ -84,14 +84,16 @@ def party_detail(request, party_url):
             track = party_obj.track_set.get(track_title=track_title, artist=track_artist)
             tracks.remove_from_playlist(track, party_obj)
 
+        return HttpResponseRedirect(reverse('party_detail', args=(party_url,)))
+
     return render(request, 'party_detail.html', context)
 
 
 @login_required
 def track_search_results(request, query, party):
-    if request.method == "POST":
+    if request.method == 'POST':
         tracks.add_to_playlist(request.POST['track_uri'], party, request.user.username)
-        return redirect('party_detail', party_url=party.url)
+        return HttpResponseRedirect(reverse('party_detail', args=(party.url,)))
 
     sp = spotipy.Spotify()
     results = sp.search(query, limit=25)
