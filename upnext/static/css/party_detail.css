@@ -87,3 +87,8 @@ input {
 .selected:hover {
   background-color: #a239ca;
 }
+
+span {
+  display: inline-block;
+  margin-top: 5px;
+}
