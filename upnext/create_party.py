@@ -11,11 +11,11 @@ def create_party_in_db(request, form):
     new_party = form.save(commit=False)
     new_party.username = request.user.username
     new_party.save()
-    create_playlist(request, new_party.party_name)
+    create_playlist(request, new_party)
     return new_party
 
 
-def create_playlist(request, party_name):
+def create_playlist(request, party):
     username = 'up--next'
     user = request.user.social_auth.get(provider='spotify')
     token_info = tokens.token_read()
@@ -31,9 +31,8 @@ def create_playlist(request, party_name):
         sp_user = spotipy.Spotify(auth=new_token_info['access_token'])
         sp_user.trace = False
 
-        playlist = sp_admin.user_playlist_create(username, party_name)
+        playlist = sp_admin.user_playlist_create(username, party.party_name)
 
-        party = Party.objects.get(party_name=party_name)
         initial_uri = party.uri
         party.uri = playlist['uri']
         party.created_at = timezone.now()
@@ -58,15 +57,16 @@ def create_playlist(request, party_name):
                         track.save()
 
             # Add all the tracks to Spotify in order
-            for track in party.track_set.order_by('-score', 'track_title', 'artist'):
-                token_info = tokens.token_read()
+            token_info = tokens.token_read()
 
-                username = 'up--next'
-                track_id = track.uri.split(':')[-1]
-                party_id = party.uri.split(':')[-1]
+            username = 'up--next'
+            party_id = party.uri.split(':')[-1]
 
-                sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
-                sp.user_playlist_add_tracks(username, party_id, [track_id])
+            tracks = party.track_set.order_by('-score', 'track_title', 'artist')
+            track_uris = map(lambda x: x.uri, tracks)
+
+            sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
+            sp.user_playlist_add_tracks(username, party_id, track_uris)
 
     else:
         print("Can't get token for", username)
