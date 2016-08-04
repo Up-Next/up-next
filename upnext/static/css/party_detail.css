@@ -20,7 +20,7 @@ input {
 }
 
 .playlist {
-  margin: 20px;
+  margin: 20px 0 10px 0;
   width: 80%;
   text-align: left;
   border: 2px solid #4717f6;
@@ -112,4 +112,83 @@ audio {
   .btn-xs {
     width: 20px;
   }
+}
+
+.modal-content {
+  color: #333;
+  padding: 10px 13px 13px 13px;
+}
+
+label.required {
+  display: none;
+}
+
+.btn-secondary {
+  padding: 10px 15px;
+}
+
+b {
+  margin: 3px 0 5px 0;
+}
+
+.btn-link {
+  color: #a239ca;
+  padding: 0;
+}
+
+.btn-link:hover, .btn-link:active, .btn-link:focus {
+  text-decoration: none;
+  color: #8920B1;
+  padding: 0;
+}
+
+h4 {
+  margin-top: 40px;
+}
+
+.vertical-alignment-helper {
+  display: table;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+.vertical-align-center {
+  display: table-cell;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+.modal-content {
+  width: inherit;
+  height: inherit;
+  margin: 0 auto;
+  pointer-events: all;
+}
+
+#id_min_score {
+  width: 90px;
+  text-align: center;
+}
+
+li:nth-of-type(2) {
+  display: none;
+}
+
+li {
+  list-style-type: none;
+  color: #a239ca;
+  font-size: 13px;
+}
+
+.required.error input#id_min_score {
+  border: 2px solid #a239ca;
+}
+
+ul {
+  padding: 0;
+}
+
+#modalbtn {
+  padding: 10px 20px;
 }

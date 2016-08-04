@@ -133,6 +133,12 @@ def downvote_track(track_info, party, voter_name):
         undo_vote(down_track, party, voter, 'down')
 
 
+def remove_min_score(party):
+    tracks = party.track_set.filter(score__lte=party.min_score)
+    for track in tracks:
+        remove_from_playlist(track, party)
+
+
 def reorder_playlist(party, old_position, new_position):
     print "called"
     token_info = tokens.token_read()

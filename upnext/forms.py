@@ -36,3 +36,12 @@ class PartyForm(forms.ModelForm):
     class Meta:
         model = Party
         fields = ('party_name', 'url', 'user_nickname', 'min_score', 'uri',)
+
+
+class ScoreForm(forms.ModelForm):
+    required_css_class = "required"
+    error_css_class = "error"
+
+    class Meta:
+        model = Party
+        fields = ('min_score',)

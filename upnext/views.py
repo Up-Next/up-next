@@ -1,4 +1,4 @@
-from .forms import PartyForm
+from .forms import PartyForm, ScoreForm
 from .models import Party, Voter
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -66,9 +66,7 @@ def party_detail(request, party_url):
     party_tracks = party_obj.track_set.all()
     tracks_ordered = party_tracks.order_by('-score', 'track_title', 'artist')
     voter = Voter.objects.get(username=request.user.username)
-
-    context = {'party': party_obj, 'tracks': tracks_ordered, 'down': voter.down_tracks.all(), 'up': voter.up_tracks.all(), 'added_by': request.user.username}
-
+    form = ScoreForm()
     if 'track_query' in request.GET:
         return track_search_results(request, request.GET['track_query'], party_obj)
 
@@ -83,8 +81,16 @@ def party_detail(request, party_url):
             track_artist = re.search('by (.+?)$', track_info).group(1)
             track = party_obj.track_set.get(track_title=track_title, artist=track_artist)
             tracks.remove_from_playlist(track, party_obj)
-
+        elif 'min_score' in request.POST:
+            form = ScoreForm(request.POST)
+            if form.is_valid():
+                party_obj.min_score = request.POST['min_score']
+                party_obj.save()
+                tracks.remove_min_score(party_obj)
         return HttpResponseRedirect(reverse('party_detail', args=(party_url,)))
+
+    context = {'party': party_obj, 'tracks': tracks_ordered, 'down': voter.down_tracks.all(), 'up': voter.up_tracks.all(), 'current_user': request.user.username, 'form': form}
+
 
     return render(request, 'party_detail.html', context)
 

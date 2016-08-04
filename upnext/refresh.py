@@ -22,7 +22,7 @@ class Refresh(Thread):
         print "I refreshed"
         while True:
             self.refresh_tokens()
-            time.sleep(60 * 50)
+            time.sleep(60 * 45)
 
     def run(self):
         self.refresh()
