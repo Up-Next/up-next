@@ -17,8 +17,9 @@ def get_user_playlists(user):
         sp = spotipy.Spotify(auth=token)
         playlists = sp.user_playlists(user)["items"]
         for playlist in playlists:
-            uri = playlist["uri"].split(":")[-1]
-            cleaned_playlists.append((uri, playlist["name"]))
+            if playlist["owner"]["id"] == unicode(user):
+                uri = playlist["uri"].split(":")[-1]
+                cleaned_playlists.append((uri, playlist["name"]))
     return cleaned_playlists
 
 

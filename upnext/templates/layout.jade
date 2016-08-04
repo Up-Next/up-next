@@ -12,7 +12,7 @@ html
     link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css', rel='stylesheet')
     link(href="{% static 'css/index.css' %}", rel='stylesheet')
     block background
-    .row.header
+    .row.header.hidden-xs
       .col-xs-4
         a(href="http://up-next.me")
           img(src="{% static 'images/logo.png' %}", height=30)
@@ -22,6 +22,21 @@ html
             a(href='/create') + Create a party
           .how-to
             a(href='/about') About
+
+    .row.hidden
+
+    .row.header.visible-xs
+      .links-mobile
+        .col-xs-12
+          a(href="http://up-next.me")
+            img(src="{% static 'images/logo.png' %}", height=30)
+        .col-xs-12
+          .create-mobile
+            a(href='/create') + Create a party
+        .col-xs-12
+          .how-to-mobile
+            a(href='/about') About
+
     .content
       block content
         h1 Oops! There's nothing here!

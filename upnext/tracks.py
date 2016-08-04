@@ -22,11 +22,14 @@ def cleanup_one(track_item):
     track['artist'] = track_item['artists'][0]['name']
     track['uri'] = track_item['uri']
     track['preview'] = track_item['preview_url']
-    track['album_image'] = track_item['album']['images'][1]['url']
+    try:
+        track['album_image'] = track_item['album']['images'][1]['url']
+    except:
+        track['album_image'] = ''
     return track
 
 
-def add_to_playlist(track_uri, party):
+def add_to_playlist(track_uri, party, added_by_user):
     token_info = tokens.token_read()
 
     # Adding on Spotify
@@ -47,12 +50,12 @@ def add_to_playlist(track_uri, party):
     track_artist = unicodedata.normalize('NFKD', track_info['artist']).encode('ascii', 'ignore')
     track_title = unicodedata.normalize('NFKD', track_info['song_title']).encode('ascii', 'ignore')
 
-    track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party)
+    track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party, added_by=added_by_user)
     track.save()
 
     old_position = len(party.track_set.all()) - 1
 
-    ordered = party.track_set.order_by('-score')
+    ordered = party.track_set.order_by('-score', 'track_title', 'artist')
     new_position = get_index(track, ordered)
 
     reorder_playlist(party, old_position, new_position)
@@ -68,7 +71,7 @@ def upvote_track(track_info, party, voter_name):
     # Ensure voter hasn't already upvoted
     if not voter.up_tracks.filter(track_title=track_title, artist=track_artist, party=party).exists():
 
-        ordered_old = party.track_set.order_by('-score')
+        ordered_old = party.track_set.order_by('-score','track_title', 'artist')
         old_position = get_index(up_track, ordered_old)
 
         up_track.score += 1
@@ -81,7 +84,7 @@ def upvote_track(track_info, party, voter_name):
         up_track.save()
         voter.up_tracks.add(up_track)
 
-        ordered_new = party.track_set.order_by('-score')
+        ordered_new = party.track_set.order_by('-score','track_title', 'artist')
         new_position = get_index(up_track, ordered_new)
 
         reorder_playlist(party, old_position, new_position)
@@ -101,7 +104,7 @@ def downvote_track(track_info, party, voter_name):
     # Ensure voter hasn't already downvoted
     if not voter.down_tracks.filter(track_title=track_title, artist=track_artist, party=party).exists():
 
-        ordered_old = party.track_set.order_by('-score')
+        ordered_old = party.track_set.order_by('-score','track_title', 'artist')
         old_position = get_index(down_track, ordered_old)
 
         down_track.score -= 1
@@ -114,8 +117,10 @@ def downvote_track(track_info, party, voter_name):
         down_track.save()
         voter.down_tracks.add(down_track)
 
-        ordered_new = party.track_set.order_by('-score')
+        ordered_new = party.track_set.order_by('-score', 'track_title', 'artist')
         new_position = get_index(down_track, ordered_new)
+
+        print old_position, new_position, down_track
 
         reorder_playlist(party, old_position, new_position)
 
@@ -128,11 +133,15 @@ def downvote_track(track_info, party, voter_name):
 
 
 def reorder_playlist(party, old_position, new_position):
+    print "called"
     token_info = tokens.token_read()
 
     party_id = party.uri.split(':')[-1]
 
     sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
+    print old_position, new_position, "spotify u suck"
+    if new_position > old_position:
+        new_position += 1
     sp.user_playlist_reorder_tracks('up--next', party_id, old_position, new_position)
 
 
@@ -152,7 +161,7 @@ def remove_from_playlist(track, party):
 
 
 def undo_vote(track, party, voter, up_or_down):
-    ordered_old = party.track_set.order_by('-score')
+    ordered_old = party.track_set.order_by('-score','track_title', 'artist')
     old_position = get_index(track, ordered_old)
 
     if up_or_down == 'up':
@@ -164,9 +173,9 @@ def undo_vote(track, party, voter, up_or_down):
 
     track.save()
 
-    ordered_new = party.track_set.order_by('-score')
+    ordered_new = party.track_set.order_by('-score','track_title', 'artist')
     new_position = get_index(track, ordered_new)
-
+    print track, old_position, new_position
     reorder_playlist(party, old_position, new_position)
 
 

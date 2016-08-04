@@ -61,10 +61,25 @@ a:hover, a:focus {
   margin: 15px;
 }
 
+.create-mobile {
+  font-size: 17px;
+  margin: 2px;
+}
+
 .how-to {
   float: right;
   font-size: 17px;
   margin: 15px;
+}
+
+.how-to-mobile {
+  font-size: 17px;
+  margin: 2px 0 5px;
+}
+
+.links-mobile {
+  text-align: center;
+  margin: 10px 0;
 }
 
 .content {
