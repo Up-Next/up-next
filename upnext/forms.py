@@ -18,8 +18,7 @@ def get_user_playlists(user):
         playlists = sp.user_playlists(user)["items"]
         for playlist in playlists:
             if playlist["owner"]["id"] == unicode(user):
-                uri = playlist["uri"].split(":")[-1]
-                cleaned_playlists.append((uri, playlist["name"]))
+                cleaned_playlists.append((playlist['uri'], playlist['name']))
     return cleaned_playlists
 
 

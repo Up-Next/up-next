@@ -40,33 +40,39 @@ def create_playlist(request, party):
 
         # Load songs from initial playlist into new playlist
         if initial_uri != "UpNext - Start a new playlist":
-            tracks_info = sp_user.user_playlist_tracks(user, playlist_id=initial_uri)["items"]
-            uris = map(lambda x: x["track"]["uri"].split(":")[-1] if "local" not in x["track"]["uri"] else "local", tracks_info)
-            track_titles = map(lambda x: x["track"]["name"], tracks_info)
-            artists = map(lambda x: x["track"]["artists"][0]["name"], tracks_info)
-
-            for i in range(len(uris)):
-
-                if uris[i] != "local":
-
-                    if not party.track_set.filter(uri=uris[i]).exists():
-                        # Add all the tracks to the DB
-                        track_artist = unicodedata.normalize('NFKD', artists[i]).encode('ascii', 'ignore')
-                        track_title = unicodedata.normalize('NFKD', track_titles[i]).encode('ascii', 'ignore')
-                        track = Track(track_title=track_title, artist=track_artist, uri=uris[i], party=party, added_by=request.user.username)
-                        track.save()
-
-            # Add all the tracks to Spotify in order
-            token_info = tokens.token_read()
-
-            username = 'up--next'
-            party_id = party.uri.split(':')[-1]
-
-            tracks = party.track_set.order_by('-score', 'track_title', 'artist')
-            track_uris = map(lambda x: x.uri, tracks)
-
-            sp = spotipy.Spotify(auth=token_info['ACCESS_TOKEN'])
-            sp.user_playlist_add_tracks(username, party_id, track_uris)
+            load_from_playlist(initial_uri, party, sp_user, request.user.username, user, token_info['ACCESS_TOKEN'])
 
     else:
         print("Can't get token for", username)
+
+
+def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
+    tracks_info = client.user_playlist_tracks(user_auth, playlist_id=playlist_uri)['items']
+    track_uris = [item['track']['uri'] if 'local' not in item else 'local' for item in tracks_info]
+    track_titles = [item['track']['name'] for item in tracks_info]
+    artists = [item['track']['artists'][0]['name'] for item in tracks_info]
+
+    for i in xrange(len(track_uris)):
+
+        if track_uris[i] != 'local':
+
+            if not party.track_set.filter(uri=track_uris[i]).exists():
+                # Add all the tracks to the DB
+                track_artist = unicodedata.normalize('NFKD', artists[i]).encode('ascii', 'ignore')
+                track_title = unicodedata.normalize('NFKD', track_titles[i]).encode('ascii', 'ignore')
+                track = Track(track_title=track_title,
+                              artist=track_artist,
+                              uri=track_uris[i],
+                              party=party,
+                              added_by=added_by)
+                track.save()
+
+    # Add all the tracks to Spotify in order
+    username = 'up--next'
+    party_id = party.uri.split(':')[-1]
+
+    ordered_tracks = party.track_set.order_by('-score', 'track_title', 'artist')
+    track_ids = [item.uri.split(':')[-1] for item in ordered_tracks]
+
+    sp = spotipy.Spotify(auth=token)
+    sp.user_playlist_add_tracks(username, party_id, track_ids)
