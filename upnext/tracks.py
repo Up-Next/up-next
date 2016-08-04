@@ -55,7 +55,7 @@ def add_to_playlist(track_uri, party, added_by_user):
 
     old_position = len(party.track_set.all()) - 1
 
-    ordered = party.track_set.order_by('-score','track_title', 'artist')
+    ordered = party.track_set.order_by('-score', 'track_title', 'artist')
     new_position = get_index(track, ordered)
 
     reorder_playlist(party, old_position, new_position)
