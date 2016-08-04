@@ -48,11 +48,11 @@ p {
   margin: 0 0 20px;
 }
 
-.error input, .error select {
+input.error {
     border: 2px #a239ca solid;
 }
 
-input:focus {
+input:focus, select:focus {
   outline: none;
 }
 
