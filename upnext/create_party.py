@@ -5,6 +5,7 @@ from django.utils import timezone
 import unicodedata
 import spotipy.oauth2 as oauth2
 from django.conf import settings
+import tracks
 
 
 def create_party_in_db(request, form):
@@ -49,6 +50,13 @@ def create_playlist(request, party_name):
                         track_title = unicodedata.normalize('NFKD', track_titles[i]).encode('ascii', 'ignore')
                         track = Track(track_title=track_title, artist=track_artist, uri=uris[i], party=party, added_by=request.user.username)
                         track.save()
+
+                        old_position = len(party.track_set.all()) - 1
+
+                        ordered = party.track_set.order_by('-score','track_title', 'artist')
+                        new_position = tracks.get_index(track, ordered)
+
+                        tracks.reorder_playlist(party, old_position, new_position)
 
     else:
         print("Can't get token for", username)
