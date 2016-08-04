@@ -7,7 +7,7 @@
 }
 
 .open-uri {
-  margin: 15px 0;
+  margin: 30px 0 15px 0;
 }
 
 input {
@@ -77,7 +77,7 @@ input {
 
 .embed {
   height: 80px;
-  margin-top: 35px;
+  margin-bottom: 10px;
 }
 
 .selected {
@@ -93,6 +93,12 @@ span {
   margin-top: 5px;
 }
 
+#no_app {
+  margin-top: 5px;
+  cursor: pointer;
+  cursor: hand;
+}
+
 audio {
   width: 45px;
 }
@@ -101,7 +107,6 @@ audio {
   line-height: 23px;
   width: 30px;
 }
-
 
 @media (max-width: 600px) {
   .btn-xs {

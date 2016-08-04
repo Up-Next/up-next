@@ -15,6 +15,23 @@ block content
     function emailCurrentPage(){
     window.location.href="mailto:?subject="+document.title+"&body="+escape(window.location.href);
     }
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+  script(type='text/javascript').
+    $(function() {
+      var x = document.cookie;
+      if (x.indexOf("show=True;") != -1) {
+        $("#no_app").hide();
+        $("#no_app_div").show();
+      }
+      else {
+        $("#no_app_div").hide();
+        $("#no_app").click(function () {
+          document.cookie = "show=True";
+          $("#no_app").hide();
+          $("#no_app_div").show();
+        })
+      }
+    })
 
   link(rel='stylesheet', href="{% static 'css/party_detail.css' %}")
   .title-text
@@ -23,14 +40,14 @@ block content
 
     .row
       .col-sm-12
-        .embed
-          iframe(src='https://embed.spotify.com/?uri=' + '{{ party.uri }}', width='300', height='100', frameborder='0', allowtransparency='true')
-        span We recommend opening in Spotify as the embedded player can lag behind.
-
-    .row
-      .col-sm-12
         .open-uri
           a.btn.btn-primary(href="{{ party.uri }}") Open in Spotify
+          p#no_app Don't have the app?
+
+    .row#no_app_div
+      .col-sm-12
+        .embed
+          iframe(src='https://embed.spotify.com/?uri=' + '{{ party.uri }}', width='300', height='100', frameborder='0', allowtransparency='true')
 
     h2 Got a song in mind? Look it up.
     .row
