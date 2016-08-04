@@ -1,5 +1,5 @@
 # Introduction
-Welcome to [UpNext](http://www.up-next.me/)! UpNext is a tool for collaborative playlist building, perfect for listening to music in any group setting. Users can create a playlist, add tracks, upvote songs they like, and downvote songs they don't like. Tracks are played in descending order of their score (upvotes minus downvotes). Songs that have been downvoted below the minimum score set by ther host will be removed from the playlist.
+Welcome to [UpNext](http://www.up-next.me/)! UpNext is a tool for collaborative playlist building, perfect for listening to music in any group setting. Users can create a playlist, add tracks, upvote songs they like, and downvote songs they don't like. Tracks are played in descending order of their score (upvotes minus downvotes). Songs that have been downvoted below the minimum score set by the host will be removed from the playlist.
 
 # Getting Started
 You need a Spotify account in order to get started with UpNext. (Sign up for a free account [here](https://www.spotify.com/us/signup/)!) Log in to your Spotify account on the [homepage](http://www.up-next.me) to get started.
