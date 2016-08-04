@@ -118,8 +118,10 @@ block content
         .col-xs-3.entry.track-artist
           span {{ track.artist }}
         .col-xs-1.entry.play.hidden-xs
+          | {% if track.preview %}
           audio(controls)
             source(src='{{ track.preview }}', type='audio/mpeg')
+          | {% endif %}
         .col-xs-1.entry.remove.hidden-xs
           | {% if track.added_by == current_user %}
           form(method="POST")
