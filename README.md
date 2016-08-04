@@ -9,4 +9,4 @@ A necessity for every bangin' party.
 
 ## How to Use
 
-1. You'll know when we know.
+1. http://www.up-next.me/about
