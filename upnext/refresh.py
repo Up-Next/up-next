@@ -19,7 +19,6 @@ class Refresh(Thread):
         tokens.token_write(token_info['access_token'], token_info['refresh_token'])
 
     def refresh(self):
-        print "I refreshed"
         while True:
             self.refresh_tokens()
             time.sleep(60 * 45)

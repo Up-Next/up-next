@@ -120,8 +120,6 @@ def downvote_track(track_info, party, voter_name):
         ordered_new = party.track_set.order_by('-score', 'track_title', 'artist')
         new_position = get_index(down_track, ordered_new)
 
-        print old_position, new_position, down_track
-
         reorder_playlist(party, old_position, new_position)
 
         if down_track.score <= party.min_score:
