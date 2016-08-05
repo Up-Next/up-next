@@ -1,8 +1,7 @@
 import spotipy
 import tokens
-from .models import Party, Track
+from .models import Track
 from django.utils import timezone
-import unicodedata
 import spotipy.oauth2 as oauth2
 from django.conf import settings
 
@@ -59,10 +58,8 @@ def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
         if track_uris[i] != 'local':
             if not party.track_set.filter(uri=track_uris[i]).exists():
                 # Add all the tracks to the DB
-                track_artist = unicodedata.normalize('NFKD', artists[i]).encode('ascii', 'ignore')
-                track_title = unicodedata.normalize('NFKD', track_titles[i]).encode('ascii', 'ignore')
-                track = Track(track_title=track_title,
-                              artist=track_artist,
+                track = Track(track_title=track_titles[i],
+                              artist=artists[i],
                               uri=track_uris[i],
                               party=party,
                               preview=(track_previews[i] or ""),

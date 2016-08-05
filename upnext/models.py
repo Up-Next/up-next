@@ -32,6 +32,9 @@ class Track(models.Model):
     def __str__(self):
         return self.track_title + ", by " + self.artist
 
+    def __unicode__(self):
+        return u'%s, by %s'% (self.track_title, self.artist)
+
 
 class Voter(models.Model):
     username = models.CharField(max_length=100, default='', unique=True)

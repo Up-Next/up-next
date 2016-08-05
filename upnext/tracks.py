@@ -1,7 +1,6 @@
 import spotipy
 import tokens
 import re
-import unicodedata
 from .models import Track, Voter
 
 
@@ -47,8 +46,8 @@ def add_to_playlist(track_uri, party, added_by_user):
     track_info = cleanup_one(track_item)
 
     # Adding in DB
-    track_artist = unicodedata.normalize('NFKD', track_info['artist']).encode('ascii', 'ignore')
-    track_title = unicodedata.normalize('NFKD', track_info['song_title']).encode('ascii', 'ignore')
+    track_artist = track_info['artist']
+    track_title = track_info['song_title']
     track_preview = track_info['preview'] or ""
 
     track = Track(track_title=track_title, artist=track_artist, uri=track_uri, party=party, preview=track_preview, added_by=added_by_user)
