@@ -159,7 +159,7 @@ SECRET='42557df5b5104ea6a7133c1346b2e9e1'
 REDIRECT_URI='http://127.0.0.1:8000/complete/spotify/'
 
 SOCIAL_AUTH_SPOTIFY_SCOPE = [
-    'playlist-read-private'
+    'playlist-read-private playlist-read-collaborative'
 ]
 
 SPOTIPY_CLIENT_ID='ce1583f19b4b4d0f810933825b14155b'
