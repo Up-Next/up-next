@@ -56,6 +56,7 @@ def load_from_playlist(playlist_uri, party, client, added_by, user_auth, token):
     for i in xrange(len(track_uris)):
 
         if track_uris[i] != 'local':
+
             if not party.track_set.filter(uri=track_uris[i]).exists():
                 # Add all the tracks to the DB
                 track = Track(track_title=track_titles[i],
