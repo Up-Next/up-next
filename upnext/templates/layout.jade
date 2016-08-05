@@ -22,6 +22,10 @@ html
             a(href='/create') + Create a party
           .how-to
             a(href='/about') About
+          | {% if admin %}
+          .admin
+            a(href='/admin') Admin
+          | {% endif %}
 
     .row.hidden
 
@@ -36,6 +40,11 @@ html
         .col-xs-12
           .how-to-mobile
             a(href='/about') About
+        | {% if admin %}
+        .col-xs-12
+          .admin-mobile
+            a(href='/admin') Admin
+        | {% endif %}
 
     .content
       block content
