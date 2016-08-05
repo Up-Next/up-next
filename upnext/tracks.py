@@ -179,7 +179,6 @@ def undo_vote(track, party, voter, up_or_down):
 
     ordered_new = party.track_set.order_by('-score','track_title', 'artist')
     new_position = get_index(track, ordered_new)
-    print track, old_position, new_position
     reorder_playlist(party, old_position, new_position)
 
 
