@@ -1,8 +1,8 @@
 import spotipy
 import tokens
+import spotipy.oauth2 as oauth2
 from .models import Track
 from django.utils import timezone
-import spotipy.oauth2 as oauth2
 from django.conf import settings
 
 
